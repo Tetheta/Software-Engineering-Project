@@ -18,15 +18,18 @@ public class Square : MonoBehaviour
 
     public void wasClicked()
     {
-        for (int i = 0; i < GameManager.heroClicked.Count; i++)
-        {
-            if (GameManager.heroClicked[i])
-            {
-                GameManager.Instance.moveHero(transform, i);
-                GameManager.heroClicked[i] = false;
-                Debug.Log("Hero #" + i + " Clicked, now going to move hero!");
-            }
-        }
+		if (GameManager.secondClick) {
+			
+				
+						for (int i = 0; i < GameManager.heroClicked.Count; i++) {
+								if (GameManager.heroClicked [i]) {
+										GameManager.Instance.moveHero (transform, i);
+										GameManager.heroClicked [i] = false;
+										Debug.Log ("Hero #" + i + " Clicked, now going to move hero!");
+								}
+						}
+				}
+		GameManager.secondClick = false;
         Debug.Log("Square was clicked!");
     }
 }

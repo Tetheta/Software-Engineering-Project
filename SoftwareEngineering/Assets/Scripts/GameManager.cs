@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
-    public static int heroNum = 0;
+	public static bool secondClick = false;
+    public static int heroNum;
     public static List<bool> heroClicked;
     public static List<GameObject> currentHero;
     public static GameManager Instance;
@@ -13,20 +14,16 @@ public class GameManager : MonoBehaviour {
     {
         Instance = this;
         DontDestroyOnLoad(this);
+		heroNum = 0;
+		heroClicked = new List<bool>();
+		currentHero = new List<GameObject>();
     }
-
-	public void addHero(GameObject heroObject)
-	{
-		currentHero.Add (heroObject);
-		heroClicked.Add (false);
-	}
-
 	
 	// Use this for initialization
 	void Start () {
-        heroClicked = new List<bool>();
-        currentHero = new List<GameObject>();
-        //currentHero.Add(null);
+
+        //currentHero.Add (null);
+		//heroClicked.Add (false);
 	}
 	
 	// Update is called once per frame
@@ -34,9 +31,15 @@ public class GameManager : MonoBehaviour {
 	
 	}
 
+	public void addHero(GameObject heroObject)
+	{
+		currentHero.Add (heroObject);
+		heroClicked.Add (false);
+	}
+
     public void moveHero(Transform newPos, int hNum)
     {
-        Debug.Log("Moving Hero");
+        Debug.Log("Moving Hero " + hNum);
         currentHero[hNum].transform.position = newPos.position;
     }
 }
