@@ -14,8 +14,6 @@ public class Hero : MonoBehaviour
 			GameManager.Instance.addHero (gameObject);
 	}
 
-
-
 	// Update is called once per frame
 	void Update ()
 	{

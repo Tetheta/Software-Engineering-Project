@@ -60,6 +60,7 @@
      <Compile Include="Assets\MotionBlur\MotionBlurMeshUtility.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Hero.cs" />
+     <Compile Include="Assets\Scripts\LoadScene.cs" />
      <Compile Include="Assets\Scripts\SpecialEffectsHelper.cs" />
      <Compile Include="Assets\Scripts\Square.cs" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />
@@ -77,7 +78,7 @@
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap AlphaTest.shader" />
      <None Include="Assets\MotionBlur\shader_MotionBlur.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>D:/SoftwareEngineering/SoftwareEngineeringProject/SoftwareEngineering/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>C:/Software-Engineering-Project/SoftwareEngineering/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
