@@ -18,15 +18,15 @@ public class GameManager : MonoBehaviour {
     //Create a structure to hold our map attributes
     public class mapAttributes
     {
-        public int mapType = 0;
+        public int tileType = 0;
     }
 
-    public int mapX = 10;                            //These variables are for the size of the map in tiles
-    public int mapY = 10;
-    public int tileX = 50; 							//These variables are for the size of each square on the board
-    public int tileY = 50;
-    public static mapAttributes[,] mapArray;	//A 2D Array of the map
-    private GameObject[] tileTypes;             //An array of our possible tile types.
+    public static int mapX = 10;                //These variables are for the size of the map in tiles
+    public static int mapY = 10;
+    public static int tileX = 50; 				//These variables are for the size of each square on the board
+    public static int tileY = 50;
+    public static mapAttributes[,] mapArray = new mapAttributes[mapX, mapY];	//A 2D Array of the map
+    private GameObject[] tileTypes = new GameObject[10];             //An array of our possible tile types.
     public GameObject terrainTile;              //A terrain tile we can assign from the editor
 
 	public static bool secondClick = false; 	//Have we clicked once already?
@@ -43,20 +43,20 @@ public class GameManager : MonoBehaviour {
 		heroNum = 0;							//We'll start our heroes numbering at 0
 		heroClicked = new List<bool>();			//Create a list of clicked heroes (empty)
 		currentHero = new List<GameObject>();	//Create our list of currentHeroes (also empty)
-		mapArray = new mapAttributes[mapX, mapY];		//Create an array of the game board
-        tileTypes = new GameObject[10];
+		//mapArray = new mapAttributes[mapX, mapY];		//Create an array of the game board
+        //tileTypes = new GameObject[10];
     }
 
 	void Start () {								// Use this for initialization. This is called after Awake()
         //Create our initial map Array
         mapArray[0, 0] = new mapAttributes();
-        mapArray[0, 0].mapType = 0;
+        mapArray[0, 0].tileType = 0;
         for (int i = 0; i < 1; i++)
         {
             for (int j = 0; j < 1; j++)
             {
                 //mapArray[i, j] = new mapAttributes();
-                mapArray[i, j].mapType = 0; //Set everything to our default terrain type;
+                mapArray[i, j].tileType = 0; //Set everything to our default terrain type;
             }
         }
 
