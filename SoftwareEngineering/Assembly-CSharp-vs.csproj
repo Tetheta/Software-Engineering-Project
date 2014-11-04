@@ -46,47 +46,41 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Elementals\Scripts\OrbitCamera.cs" />
-     <Compile Include="Assets\Elementals\Scripts\TestParticles.cs" />
-     <Compile Include="Assets\Highscore\Script\Highscore.cs" />
-     <Compile Include="Assets\MotionBlur\MotionBlur.cs" />
-     <Compile Include="Assets\MotionBlur\MotionBlur2D.cs" />
-     <Compile Include="Assets\MotionBlur\MotionBlur3D.cs" />
-     <Compile Include="Assets\MotionBlur\MotionBlurBase.cs" />
-     <Compile Include="Assets\MotionBlur\MotionBlurGhost.cs" />
-     <Compile Include="Assets\MotionBlur\MotionBlurGhost2D.cs" />
-     <Compile Include="Assets\MotionBlur\MotionBlurGhost3D.cs" />
-     <Compile Include="Assets\MotionBlur\MotionBlurInterpolate.cs" />
-     <Compile Include="Assets\MotionBlur\MotionBlurMeshUtility.cs" />
+     <Compile Include="Assets\ExteriorAssets\Elementals\Scripts\OrbitCamera.cs" />
+     <Compile Include="Assets\ExteriorAssets\Elementals\Scripts\TestParticles.cs" />
+     <Compile Include="Assets\ExteriorAssets\Highscore\Script\Highscore.cs" />
+     <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlur.cs" />
+     <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlur2D.cs" />
+     <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlur3D.cs" />
+     <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlurBase.cs" />
+     <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlurGhost.cs" />
+     <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlurGhost2D.cs" />
+     <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlurGhost3D.cs" />
+     <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlurInterpolate.cs" />
+     <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlurMeshUtility.cs" />
+     <Compile Include="Assets\ExteriorAssets\Standard Assets\Scripts\General Scripts\ActivateTrigger.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Hero.cs" />
      <Compile Include="Assets\Scripts\LoadScene.cs" />
      <Compile Include="Assets\Scripts\SpecialEffectsHelper.cs" />
      <Compile Include="Assets\Scripts\Square.cs" />
-     <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />
-     <None Include="Assets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Background.shader" />
-     <None Include="Assets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Transparent Vertex Color.shader" />
-     <None Include="Assets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Detail.shader" />
-     <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
-     <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap Reflective.shader" />
-     <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Particles Additive Culled.shader" />
-     <None Include="Assets\Elementals\!Readme.txt" />
-     <None Include="Assets\Highscore\Read Me\Read Me.txt" />
-     <None Include="Assets\Highscore\Read Me\Create database table.txt" />
-     <None Include="Assets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Vertex Colored.shader" />
-     <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap Only.shader" />
-     <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap AlphaTest.shader" />
-     <None Include="Assets\MotionBlur\shader_MotionBlur.shader" />
- <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Software-Engineering-Project/SoftwareEngineering/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
- </Reference>
+     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />
+     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Background.shader" />
+     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Transparent Vertex Color.shader" />
+     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Detail.shader" />
+     <None Include="Assets\ExteriorAssets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
+     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap Reflective.shader" />
+     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Particles Additive Culled.shader" />
+     <None Include="Assets\ExteriorAssets\Elementals\!Readme.txt" />
+     <None Include="Assets\ExteriorAssets\Highscore\Read Me\Read Me.txt" />
+     <None Include="Assets\ExteriorAssets\Highscore\Read Me\Create database table.txt" />
+     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Vertex Colored.shader" />
+     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap Only.shader" />
+     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap AlphaTest.shader" />
+     <None Include="Assets\ExteriorAssets\MotionBlur\shader_MotionBlur.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
-      <Project>{83811541-33FF-3CC1-5656-1CB3227AD6CB}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

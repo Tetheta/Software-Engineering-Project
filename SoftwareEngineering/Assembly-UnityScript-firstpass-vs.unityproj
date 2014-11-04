@@ -58,13 +58,13 @@
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap Reflective.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Particles Additive Culled.shader" />
-     <None Include="Assets\Elementals\!Readme.txt" />
-     <None Include="Assets\Highscore\Read Me\Read Me.txt" />
-     <None Include="Assets\Highscore\Read Me\Create database table.txt" />
+     <None Include="Assets\ExteriorAssets\Elementals\!Readme.txt" />
+     <None Include="Assets\ExteriorAssets\Highscore\Read Me\Read Me.txt" />
+     <None Include="Assets\ExteriorAssets\Highscore\Read Me\Create database table.txt" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Vertex Colored.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap Only.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap AlphaTest.shader" />
-     <None Include="Assets\MotionBlur\shader_MotionBlur.shader" />
+     <None Include="Assets\ExteriorAssets\MotionBlur\shader_MotionBlur.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
  </Reference>
