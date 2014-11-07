@@ -58,25 +58,14 @@
      <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlurGhost3D.cs" />
      <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlurInterpolate.cs" />
      <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlurMeshUtility.cs" />
-     <Compile Include="Assets\ExteriorAssets\Standard Assets\Scripts\General Scripts\ActivateTrigger.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Hero.cs" />
      <Compile Include="Assets\Scripts\LoadScene.cs" />
      <Compile Include="Assets\Scripts\SpecialEffectsHelper.cs" />
      <Compile Include="Assets\Scripts\Square.cs" />
-     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />
-     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Background.shader" />
-     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Transparent Vertex Color.shader" />
-     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Detail.shader" />
-     <None Include="Assets\ExteriorAssets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
-     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap Reflective.shader" />
-     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Particles Additive Culled.shader" />
      <None Include="Assets\ExteriorAssets\Elementals\!Readme.txt" />
      <None Include="Assets\ExteriorAssets\Highscore\Read Me\Read Me.txt" />
      <None Include="Assets\ExteriorAssets\Highscore\Read Me\Create database table.txt" />
-     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Vertex Colored.shader" />
-     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap Only.shader" />
-     <None Include="Assets\ExteriorAssets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap AlphaTest.shader" />
      <None Include="Assets\ExteriorAssets\MotionBlur\shader_MotionBlur.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
