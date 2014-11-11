@@ -20,11 +20,10 @@ public class GameManager : MonoBehaviour {
     public class mapAttributes
     {
         public int tileType = 0;
+		public bool isHero = false;	//There is a hero on this tile
 		public int x;				//These are the values in tiles of this map section
 		public int y;
     }
-	public int canvasXOffset = 256;
-	public int canvasYOffset = 192;
     public static int mapX = 5;                //These variables are for the size of the map in tiles
     public static int mapY = 5;
     public static int tileX = 70; 				//These variables are for the size of each square on the board
@@ -32,8 +31,8 @@ public class GameManager : MonoBehaviour {
 	public static mapAttributes[,] mapArray;	//A 2D Array of the map
 	private GameObject[] tileTypes;             //An array of our possible tile types.
     public GameObject terrainTile;              //A terrain tile we can assign from the editor
-	//public Transform MainCanvas;					//Our main canvas, make UI objects a child of this to display them
-	public Transform MainCanvas;
+	public GameObject heroObject;				//A hero that can be assigned from the editor
+	public Transform MainCanvas;					//Our main canvas, make UI objects a child of this to display them
 
 	public static bool secondClick = false; 	//Have we clicked once already?
 	public static int heroNum; 					//An incrementing int that gives different hero numbers to differentiate
@@ -41,6 +40,8 @@ public class GameManager : MonoBehaviour {
 	public static List<GameObject> currentHero; //A list of all heroes' game objects
 
 	public static GameManager Instance;			//Creating GameManager as a Singleton
+
+	private GameObject temp;					//Temp game object for our map array initialization
 
     void Awake()								//This method is called before Start, it's the very first thing after engine init
     {
@@ -54,17 +55,16 @@ public class GameManager : MonoBehaviour {
     }
 
 	void Start () {								// Use this for initialization. This is called after Awake()
-		//Debug.Log ("mapArray.Length = " + mapArray.Length);
-		//Debug.Log ("tileTypes.Length = " + tileTypes.Length);
         //Create our initial map Array
-        //mapArray[0, 0] = new mapAttributes();
-        //mapArray[0, 0].tileType = 0;
         for (int i = 0; i < mapX; i++)
         {
 			for (int j = 0; j < mapY; j++)
 			{
                 mapArray[i, j] = new mapAttributes();
                 mapArray[i, j].tileType = 0; //Set everything to our default terrain type;
+				if (j % 5 == 1) {
+					mapArray[i,j].isHero = true;
+				}
             }
         }
 
@@ -79,21 +79,39 @@ public class GameManager : MonoBehaviour {
 
     private void createMap()
     {
-        //Instantiate our map
+        //Instantiate our tiles
 		for (int i = 0; i < mapX; i++)
         {
 			for (int j = 0; j < mapY; j++)
 			{
-				//Instantiate(terrainTile, new Vector2(0, 0), Quaternion.identity);
-				GameObject temp = (GameObject)Instantiate(terrainTile, new Vector3((((i-mapX/2)* tileX)+canvasXOffset), (((j-mapY/2)* tileY)+canvasYOffset),0), Quaternion.identity);
+				mapArray[i,j].x = i;
+				mapArray[i,j].y = j;
+				temp = (GameObject)Instantiate(tileTypes[mapArray[i,j].tileType], 
+				                                          new Vector2(((i-mapX/2)* tileX), ((j-mapY/2)* tileY)), 
+				                                          	Quaternion.identity);
 				temp.transform.parent = MainCanvas;
-				//temp.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0);
-                //Instantiate(tileTypes[mapArray[i, j].tileType], new Vector3(i * tileX, j * tileY,0), Quaternion.identity); 
             }
         }
-    }
+    
 
-	void Update () {							// Update is called once per frame. There is also FixedUpdate (updates w/physics) and LateUpdate
+	//Instantiate our map
+	for (int i = 0; i < mapX; i++)
+	{
+		for (int j = 0; j < mapY; j++)
+		{
+			if (Random.Range (0,10) == 1) {
+				temp = (GameObject)Instantiate(heroObject, 
+				                               new Vector2(((i-mapX/2)* tileX), ((j-mapY/2)* tileY)), 
+				                               Quaternion.identity);
+				temp.transform.parent = MainCanvas;
+		}
+	}
+}
+
+
+	}
+
+	void Update () {		// Update is called once per frame. There is also FixedUpdate (updates w/physics) and LateUpdate
 	
 	}
 

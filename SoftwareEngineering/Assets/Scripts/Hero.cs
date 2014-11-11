@@ -19,10 +19,10 @@ public class Hero : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update ()
-	{
-
-	}
+	//void Update ()
+	//{
+	//
+	//}
 
 	/*
 	 * This method adds a hero to our list of heroes and also adds a reference to it in heroClicked
@@ -31,6 +31,7 @@ public class Hero : MonoBehaviour
 	{
 		GameManager.currentHero.Add (gameObject);	
 		GameManager.heroClicked.Add (false);
+
 	}
 
 	/*
