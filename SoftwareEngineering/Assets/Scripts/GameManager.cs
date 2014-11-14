@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 
 /*
-	 * This class is designed as a manager of all game functions and activities
-	 * It is declared as a Singleton here, which means it is never destroyed and can act as
-	 * A liason between different scenes and objects of the game.
-	 * 
-	 * The public functions it holds can be accessed through this singleton, while the
-	 * static variables can be accessed directly by calling GameManager.variable
-	 */
+ * This class is designed as a manager of all game functions and activities
+ * It is declared as a Singleton here, which means it is never destroyed and can act as
+ * A liason between different scenes and objects of the game.
+ * 
+ * The public functions it holds can be accessed through this singleton, while the
+ * static variables can be accessed directly by calling GameManager.variable
+ */
 
 public class GameManager : MonoBehaviour {
 
@@ -37,11 +37,12 @@ public class GameManager : MonoBehaviour {
 	public static bool secondClick = false; 	//Have we clicked once already?
 	public static int heroNum; 					//An incrementing int that gives different hero numbers to differentiate
 	public static List<bool> heroClicked; 		//A list of all heroes with a boolean for if they were clicked
-	public static List<GameObject> currentHero; //A list of all heroes' game objects
+	public static List<Hero> currentHero; //A list of all heroes' game objects
 
 	public static GameManager Instance;			//Creating GameManager as a Singleton
 
 	private GameObject temp;					//Temp game object for our map array initialization
+	private Hero tempHeroScript;
 
     void Awake()								//This method is called before Start, it's the very first thing after engine init
     {
@@ -49,7 +50,7 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(this);				//Don't destroy this if we switch scenes. This is in reference to the Game Object holding this script
 		heroNum = 0;							//We'll start our heroes numbering at 0
 		heroClicked = new List<bool>();			//Create a list of clicked heroes (empty)
-		currentHero = new List<GameObject>();	//Create our list of currentHeroes (also empty)
+		currentHero = new List<Hero>();	//Create our list of currentHeroes (also empty)
 		mapArray = new mapAttributes[mapX, mapY];		//Create an array of the game board
         tileTypes = new GameObject[10];			//Initialize our array of tile types
     }
@@ -94,21 +95,22 @@ public class GameManager : MonoBehaviour {
         }
     
 
-	//Instantiate our map
-	for (int i = 0; i < mapX; i++)
-	{
-		for (int j = 0; j < mapY; j++)
+		//Instantiate our map
+		for (int i = 0; i < mapX; i++)
 		{
-			if (Random.Range (0,10) == 1) {
-				temp = (GameObject)Instantiate(heroObject, 
-				                               new Vector2(((i-mapX/2)* tileX), ((j-mapY/2)* tileY)), 
-				                               Quaternion.identity);
-				temp.transform.parent = MainCanvas;
+			for (int j = 0; j < mapY; j++)
+			{
+				if (Random.Range (0,10) == 1) {
+					temp = (GameObject)Instantiate(heroObject, 
+					                               new Vector2(((i-mapX/2)* tileX), ((j-mapY/2)* tileY)), 
+					                               Quaternion.identity);
+					tempHeroScript = temp.GetComponent<Hero>();
+					tempHeroScript.heroAttributes.curPosX = i;
+					tempHeroScript.heroAttributes.curPosY = j;
+					temp.transform.parent = MainCanvas;
+				}
+			}
 		}
-	}
-}
-
-
 	}
 
 	void Update () {		// Update is called once per frame. There is also FixedUpdate (updates w/physics) and LateUpdate
@@ -124,4 +126,15 @@ public class GameManager : MonoBehaviour {
         Debug.Log("Moving Hero " + hNum);
         currentHero[hNum].transform.position = newPos.position;
     }
+
+	/*
+	 * This method initiates combat between two heroes, an attacking hero and a defending hero.
+	 */
+	public void initiateCombat(Hero heroAtk, Hero heroDef)
+	{
+		heroDef.heroAttributes.curHealth -= (heroAtk.heroAttributes.baseDamage - heroDef.heroAttributes.baseDefense);
+		if (heroDef.heroAttributes.curHealth <= 0) {
+			heroDef.destroyHero();
+		}
+	}
 }

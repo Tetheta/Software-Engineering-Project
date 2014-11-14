@@ -8,6 +8,13 @@ using System.Collections;
 public class Hero : MonoBehaviour
 {
 	private int heroInt = 0;					//An int to keep track of this hero
+	public HeroAttributes heroAttributes;		//Attributes of this hero
+
+
+	void Awake()
+	{
+			heroAttributes = GetComponent<HeroAttributes> ();
+	}
 
 	// Use this for initialization
 	void Start ()
@@ -16,20 +23,22 @@ public class Hero : MonoBehaviour
 			GameManager.heroNum++;				//Increment heroNums so we don't have two with the same number
 			Debug.Log ("Hero #" + heroInt);		
 			addHero ();							//Add our hero to the game
+			heroAttributes.heroMake (1,1);
+			Debug.Log ("HeroPosX: " + heroAttributes.curPosX + "HeroPosY: " + heroAttributes.curPosY);
 	}
 
 	// Update is called once per frame
-	//void Update ()
-	//{
-	//
-	//}
+	void Update ()
+	{
+		//Debug.Log ("HeroPosX: " + heroAttributes.curPosX + "HeroPosY: " + heroAttributes.curPosY);	
+	}
 
 	/*
 	 * This method adds a hero to our list of heroes and also adds a reference to it in heroClicked
 	 */
 	private void addHero()
 	{
-		GameManager.currentHero.Add (gameObject);	
+		GameManager.currentHero.Add (this);
 		GameManager.heroClicked.Add (false);
 
 	}
@@ -46,14 +55,13 @@ public class Hero : MonoBehaviour
 
 			for (int i = 0; i < GameManager.heroClicked.Count; i++)	//Loop through all of our heroes, to see if they clicked
 			{
-				if (GameManager.heroClicked[i] && i != heroInt)		//If a hero was clicked and it's not us...
+				if (GameManager.heroClicked[i] && i != heroInt)		//If a hero was clicked and it's not us... COMBAT!
 				{
-					GameManager.Instance.moveHero(transform, i);	//Move that other hero
+					//COMBAT HAPPENS HERE BECAUSE HYESS
 					GameManager.heroClicked[i] = false;				//Let the GameManger know that hero is no longer clicked
-					Debug.Log("Hero #" + i + " Clicked, now going to kill hero " +heroInt + "!");
-					SpecialEffectsHelper.Instance.Explosion(transform.position);	//Instantiate an explosion :o
+					Debug.Log("Hero #" + i + " Clicked, now going to hurt hero " +heroInt + "!");
+					GameManager.Instance.initiateCombat(GameManager.currentHero[i], this); //Initiate combat between the attacker (currenthero[i] and this)
 					GameManager.secondClick = false;				//We're no longer on the second click, reset it
-					Destroy(gameObject);							//We got destroyed by hero i, destroy this hero.
 				}
 			}
 
@@ -63,5 +71,11 @@ public class Hero : MonoBehaviour
 					GameManager.heroClicked [heroInt] = true;		//We are clicked! Add us to the clicked list
 					Debug.Log ("Hero " + heroInt + " was clicked!2");
 			}
+	}
+
+	public void destroyHero()
+	{
+		SpecialEffectsHelper.Instance.Explosion(transform.position);	//Instantiate an explosion :o
+		Destroy (gameObject);
 	}
 }
