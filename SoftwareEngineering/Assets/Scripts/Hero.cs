@@ -9,11 +9,12 @@ public class Hero : MonoBehaviour
 {
 	private int heroInt = 0;					//An int to keep track of this hero
 	public HeroAttributes heroAttributes;		//Attributes of this hero
+    private Animator heroAnimator;  
 
 
-	void Awake()
+	void Awake() //Called before Start
 	{
-			heroAttributes = GetComponent<HeroAttributes> ();
+			heroAttributes = GetComponent<HeroAttributes> (); //Grab this instance's hero attributes script to mess with
 	}
 
 	// Use this for initialization
@@ -23,8 +24,9 @@ public class Hero : MonoBehaviour
 			GameManager.heroNum++;				//Increment heroNums so we don't have two with the same number
 			Debug.Log ("Hero #" + heroInt);		
 			addHero ();							//Add our hero to the game
-			heroAttributes.heroMake (1,1);
+			heroAttributes.heroMake (1,1);      //Make a hero of default class (warrior I think)
 			Debug.Log ("HeroPosX: " + heroAttributes.curPosX + "HeroPosY: " + heroAttributes.curPosY);
+            heroAnimator = GetComponent<Animator>();    //Grab the animator attached to this gameObject
 	}
 
 	// Update is called once per frame
@@ -43,6 +45,23 @@ public class Hero : MonoBehaviour
 
 	}
 
+    public void Attack()
+    {
+        heroAnimator.SetTrigger("Attack");
+    }
+
+    public void Die()
+    {
+        heroAnimator.SetTrigger("Death");
+        StartCoroutine(waitforDeathAnimation());
+    }
+
+    IEnumerator waitforDeathAnimation()
+    {
+        yield return new WaitForSeconds(0.8f);
+        destroyHero();
+    }
+
 	/*
 	 * This function is used by the UI Buttons class to make the hero react to being clicked.
 	 * If it's the second click, the hero moves to the desired location and potentially destroys an opponent
@@ -60,6 +79,7 @@ public class Hero : MonoBehaviour
 					//COMBAT HAPPENS HERE BECAUSE HYESS
 					GameManager.heroClicked[i] = false;				//Let the GameManger know that hero is no longer clicked
 					Debug.Log("Hero #" + i + " Clicked, now going to hurt hero " +heroInt + "!");
+                    
 					GameManager.Instance.initiateCombat(GameManager.currentHero[i], this); //Initiate combat between the attacker (currenthero[i] and this)
 					GameManager.secondClick = false;				//We're no longer on the second click, reset it
 				}
@@ -75,7 +95,7 @@ public class Hero : MonoBehaviour
 
 	public void destroyHero()
 	{
-		SpecialEffectsHelper.Instance.Explosion(transform.position);	//Instantiate an explosion :o
+		//SpecialEffectsHelper.Instance.Explosion(transform.position);	//Instantiate an explosion :o
 		Destroy (gameObject);
 	}
 }

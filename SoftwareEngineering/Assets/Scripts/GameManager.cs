@@ -129,12 +129,14 @@ public class GameManager : MonoBehaviour {
 
 	/*
 	 * This method initiates combat between two heroes, an attacking hero and a defending hero.
+     * Inputs: A Hero Script "heroAtk" and a Hero Script "heroDef"
 	 */
 	public void initiateCombat(Hero heroAtk, Hero heroDef)
 	{
+        heroAtk.Attack();
 		heroDef.heroAttributes.curHealth -= (heroAtk.heroAttributes.baseDamage - heroDef.heroAttributes.baseDefense);
 		if (heroDef.heroAttributes.curHealth <= 0) {
-			heroDef.destroyHero();
+            heroDef.Die();
 		}
 	}
 }
