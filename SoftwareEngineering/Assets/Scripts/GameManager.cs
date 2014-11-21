@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviour {
 		public int x;				//These are the values in tiles of this map section
 		public int y;
     }
-    public static int mapX = 5;                //These variables are for the size of the map in tiles
-    public static int mapY = 5;
+    public static int mapX = 10;                //These variables are for the size of the map in tiles
+    public static int mapY = 10;
     public static int tileX = 70; 				//These variables are for the size of each square on the board
     public static int tileY = 70;
 	public static mapAttributes[,] mapArray;	//A 2D Array of the map
@@ -64,9 +64,10 @@ public class GameManager : MonoBehaviour {
 			{
                 mapArray[i, j] = new mapAttributes();
                 mapArray[i, j].tileType = 0; //Set everything to our default terrain type;
-				if (j % 5 == 1) {
-					mapArray[i,j].isHero = true;
-				}
+                //if (j % 5 == 1) {
+                //    mapArray[i,j].isHero = true;
+                //    Debug.Log("mapArray isHero at " + i + " " + j);
+                //}
             }
         }
 
@@ -117,6 +118,7 @@ public class GameManager : MonoBehaviour {
 					tempHeroScript.heroAttributes.curPosX = i;
 					tempHeroScript.heroAttributes.curPosY = j;
 					temp.transform.parent = MainCanvas;
+                    mapArray[i, j].isHero = true;
 				}
 			}
 		}
@@ -133,6 +135,8 @@ public class GameManager : MonoBehaviour {
     public void moveHero(Transform newPos, int hNum, int x, int y)
     {
         Debug.Log("Moving Hero " + hNum);
+        GameManager.mapArray[currentHero[hNum].heroAttributes.curPosX, currentHero[hNum].heroAttributes.curPosY].isHero = false;
+        GameManager.mapArray[x, y].isHero = true;
         currentHero[hNum].heroAttributes.curPosX = x;
         currentHero[hNum].heroAttributes.curPosY = y;
         currentHero[hNum].transform.position = newPos.position;

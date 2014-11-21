@@ -57,8 +57,11 @@ public class Hero : MonoBehaviour
         //Mark the square we're selecting
         if (GameManager.mapArray[x, y] != null)
         {
-            Debug.Log("Highlight square " + GameManager.mapArray[x, y].square.x + ", " + GameManager.mapArray[x, y].square.y);
-            GameManager.mapArray[x, y].square.highlightSquare(true);
+            if (!GameManager.mapArray[x,y].isHero) //TROUBLE BREWS, FEAR YE WHO ENTER
+            {
+                Debug.Log("Highlight square " + GameManager.mapArray[x, y].square.x + ", " + GameManager.mapArray[x, y].square.y);
+                GameManager.mapArray[x, y].square.highlightSquare(true);
+            }
         }
 
         if (moveCap > 0)
@@ -73,11 +76,11 @@ public class Hero : MonoBehaviour
             }
             if (y > 0)
             {
-                Move(y, y - 1, moveCap - 1);
+                Move(x, y - 1, moveCap - 1);
             }
             if (y < GameManager.mapY - 1)
             {
-                Move(y, y + 1, moveCap - 1);
+                Move(x, y + 1, moveCap - 1);
             }
         }
     }
@@ -89,6 +92,7 @@ public class Hero : MonoBehaviour
 
     public void Die()
     {
+        GameManager.mapArray[heroAttributes.curPosX, heroAttributes.curPosY].isHero = false;
         heroAnimator.SetTrigger("Death");
         StartCoroutine(waitforDeathAnimation());
     }
@@ -118,6 +122,13 @@ public class Hero : MonoBehaviour
 					Debug.Log("Hero #" + i + " Clicked, now going to hurt hero " +heroInt + "!");
                     //Need to check to see if we're in range here
 					GameManager.Instance.initiateCombat(GameManager.currentHero[i], this); //Initiate combat between the attacker (currenthero[i] and this)
+                    for (int j = 0; j < GameManager.mapX; j++)
+                    {
+                        for (int k = 0; k < GameManager.mapY; k++)
+                        {
+                            GameManager.mapArray[j, k].square.highlightSquare(false);
+                        }
+                    }
 					GameManager.secondClick = false;				//We're no longer on the second click, reset it
 				}
 			}
@@ -127,6 +138,7 @@ public class Hero : MonoBehaviour
 					Debug.Log ("Hero " + heroInt + " was clicked!");
 					GameManager.heroClicked [heroInt] = true;		//We are clicked! Add us to the clicked list
 					Debug.Log ("Hero " + heroInt + " was clicked!2");
+
                     Move(heroAttributes.curPosX, heroAttributes.curPosY, heroAttributes.moveCap); //Start trying to move this hero
 			}
 	}
