@@ -9,7 +9,9 @@ public class Hero : MonoBehaviour
 {
 	private int heroInt = 0;					//An int to keep track of this hero
 	public HeroAttributes heroAttributes;		//Attributes of this hero
-    private Animator heroAnimator;  
+    private Animator heroAnimator;
+    private GameObject temp;
+    public GameObject highlight;
 
 
 	void Awake() //Called before Start
@@ -42,8 +44,43 @@ public class Hero : MonoBehaviour
 	{
 		GameManager.currentHero.Add (this);
 		GameManager.heroClicked.Add (false);
-
 	}
+
+    /*
+     * This recursive function moves the hero, it steps out in a direction, highlights that if there is no obstacle, 
+     * and then moves from there recursively to check all possible moves.
+     * Input: an int for the maximum movement
+     * Output: The hero moves, but nothing is returned
+     */
+    public void Move(int x, int y, int moveCap) //We have an issue here where the x and y values are not linked up somehow with the right squares
+    {
+        //Mark the square we're selecting
+        if (GameManager.mapArray[x, y] != null)
+        {
+            Debug.Log("Highlight square " + GameManager.mapArray[x, y].square.x + ", " + GameManager.mapArray[x, y].square.y);
+            GameManager.mapArray[x, y].square.highlightSquare(true);
+        }
+
+        if (moveCap > 0)
+        {
+            if (x > 0)
+            {
+                Move(x - 1, y, moveCap - 1);
+            }
+            if (x < GameManager.mapX - 1)
+            {
+                Move(x + 1, y, moveCap - 1);
+            }
+            if (y > 0)
+            {
+                Move(y, y - 1, moveCap - 1);
+            }
+            if (y < GameManager.mapY - 1)
+            {
+                Move(y, y + 1, moveCap - 1);
+            }
+        }
+    }
 
     public void Attack()
     {
@@ -79,7 +116,7 @@ public class Hero : MonoBehaviour
 					//COMBAT HAPPENS HERE BECAUSE HYESS
 					GameManager.heroClicked[i] = false;				//Let the GameManger know that hero is no longer clicked
 					Debug.Log("Hero #" + i + " Clicked, now going to hurt hero " +heroInt + "!");
-                    
+                    //Need to check to see if we're in range here
 					GameManager.Instance.initiateCombat(GameManager.currentHero[i], this); //Initiate combat between the attacker (currenthero[i] and this)
 					GameManager.secondClick = false;				//We're no longer on the second click, reset it
 				}
@@ -90,6 +127,7 @@ public class Hero : MonoBehaviour
 					Debug.Log ("Hero " + heroInt + " was clicked!");
 					GameManager.heroClicked [heroInt] = true;		//We are clicked! Add us to the clicked list
 					Debug.Log ("Hero " + heroInt + " was clicked!2");
+                    Move(heroAttributes.curPosX, heroAttributes.curPosY, heroAttributes.moveCap); //Start trying to move this hero
 			}
 	}
 

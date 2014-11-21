@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour {
     //Create a structure to hold our map attributes
     public class mapAttributes
     {
+        public Square square;
         public int tileType = 0;
 		public bool isHero = false;	//There is a hero on this tile
 		public int x;				//These are the values in tiles of this map section
@@ -50,8 +51,8 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(this);				//Don't destroy this if we switch scenes. This is in reference to the Game Object holding this script
 		heroNum = 0;							//We'll start our heroes numbering at 0
 		heroClicked = new List<bool>();			//Create a list of clicked heroes (empty)
-		currentHero = new List<Hero>();	//Create our list of currentHeroes (also empty)
-		mapArray = new mapAttributes[mapX, mapY];		//Create an array of the game board
+		currentHero = new List<Hero>();	        //Create our list of currentHeroes (also empty)
+		mapArray = new mapAttributes[mapX, mapY];	//Create an array of the game board
         tileTypes = new GameObject[10];			//Initialize our array of tile types
     }
 
@@ -78,6 +79,11 @@ public class GameManager : MonoBehaviour {
         createMap();
 	}
 
+    public Transform getMainCanvas()
+    {
+        return MainCanvas;
+    }
+
     private void createMap()
     {
         //Instantiate our tiles
@@ -91,6 +97,9 @@ public class GameManager : MonoBehaviour {
 				                                          new Vector2(((i-mapX/2)* tileX), ((j-mapY/2)* tileY)), 
 				                                          	Quaternion.identity);
 				temp.transform.parent = MainCanvas;
+                mapArray[i, j].square = temp.GetComponent<Square>(); //Add the square script of this square to our squares.
+                mapArray[i, j].square.x = i;
+                mapArray[i, j].square.y = j;
             }
         }
     
@@ -121,9 +130,11 @@ public class GameManager : MonoBehaviour {
 	 * This function accepts a transform position, and then moves the hero with number hNum to that position
 	 */
 
-    public void moveHero(Transform newPos, int hNum)
+    public void moveHero(Transform newPos, int hNum, int x, int y)
     {
         Debug.Log("Moving Hero " + hNum);
+        currentHero[hNum].heroAttributes.curPosX = x;
+        currentHero[hNum].heroAttributes.curPosY = y;
         currentHero[hNum].transform.position = newPos.position;
     }
 

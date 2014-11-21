@@ -39,7 +39,7 @@ public class HeroAttributes : MonoBehaviour {
 			baseDefense = 8;
 			oneRange = true;
 			twoRange = false;
-			moveCap = 4;
+			moveCap = 2;
 			break;
 		case 2:     //Archer
 			baseMaxHealth = 20;
@@ -47,7 +47,7 @@ public class HeroAttributes : MonoBehaviour {
 			baseDefense = 6;
 			oneRange = false;
 			twoRange = true;
-			moveCap = 5;
+			moveCap = 2;
 			break;
 		case 3:     //mage?
 			baseMaxHealth = 15;
@@ -55,7 +55,7 @@ public class HeroAttributes : MonoBehaviour {
 			baseDefense = 4;
 			oneRange = true;
 			twoRange = true;
-			moveCap = 5;
+			moveCap = 2;
 			break;
 		default:      //lulz unit
 			baseMaxHealth = 1;
@@ -63,7 +63,7 @@ public class HeroAttributes : MonoBehaviour {
 			baseDefense = 0;
 			oneRange = false;
 			twoRange = false;
-			moveCap = 10;
+			moveCap = 2;
 			break;
 		}
 		level = 1;
