@@ -58,6 +58,7 @@
      <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlurGhost3D.cs" />
      <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlurInterpolate.cs" />
      <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlurMeshUtility.cs" />
+     <Compile Include="Assets\Scripts\CameraScroll.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Hero.cs" />
      <Compile Include="Assets\Scripts\HeroAttributes.cs" />
