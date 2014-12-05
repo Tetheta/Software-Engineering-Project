@@ -48,7 +48,7 @@ public class HeroAttributes : MonoBehaviour {
 			baseDefense = 6;
 			oneRange = false;
 			twoRange = true;
-			moveCap = 2;
+			moveCap = 4;
 			break;
 		case 3:     //mage?
 			baseMaxHealth = 15;
