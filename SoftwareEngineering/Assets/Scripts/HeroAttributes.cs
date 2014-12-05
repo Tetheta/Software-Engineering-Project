@@ -13,9 +13,10 @@ public class HeroAttributes : MonoBehaviour {
 	public int moveCap;  //max spaces to walk per turn
 	public int team;   // team identifier
 	public int heroID;  //which hero it is
+    public bool active; //Is it this unit's turn atm?
 
 	public int curHealth; //Current health of the player
-	public int curPosX;
+	public int curPosX; 
 	public int curPosY;
 	
 	// Use this for initialization

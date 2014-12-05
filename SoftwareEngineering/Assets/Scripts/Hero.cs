@@ -42,7 +42,7 @@ public class Hero : MonoBehaviour
 	 */
 	private void addHero()
 	{
-		GameManager.currentHero.Add (this);
+		GameManager.currentHeroes.Add (this);
 		GameManager.heroClicked.Add (false);
 	}
 
@@ -111,36 +111,42 @@ public class Hero : MonoBehaviour
 
 	public void wasClicked ()
 	{
-			if (GameManager.secondClick) {							//This is the second click
+        if (heroAttributes.active)
+        {
+            if (GameManager.secondClick)
+            {							//This is the second click
 
-			for (int i = 0; i < GameManager.heroClicked.Count; i++)	//Loop through all of our heroes, to see if they clicked
-			{
-				if (GameManager.heroClicked[i] && i != heroInt)		//If a hero was clicked and it's not us... COMBAT!
-				{
-					//COMBAT HAPPENS HERE BECAUSE HYESS
-					GameManager.heroClicked[i] = false;				//Let the GameManger know that hero is no longer clicked
-					Debug.Log("Hero #" + i + " Clicked, now going to hurt hero " +heroInt + "!");
-                    //Need to check to see if we're in range here
-					GameManager.Instance.initiateCombat(GameManager.currentHero[i], this); //Initiate combat between the attacker (currenthero[i] and this)
-                    for (int j = 0; j < GameManager.mapX; j++)
+                for (int i = 0; i < GameManager.heroClicked.Count; i++)	//Loop through all of our heroes, to see if they clicked
+                {
+                    if (GameManager.heroClicked[i] && i != heroInt)		//If a hero was clicked and it's not us... COMBAT!
                     {
-                        for (int k = 0; k < GameManager.mapY; k++)
+                        //COMBAT HAPPENS HERE BECAUSE HYESS
+                        GameManager.heroClicked[i] = false;				//Let the GameManger know that hero is no longer clicked
+                        Debug.Log("Hero #" + i + " Clicked, now going to hurt hero " + heroInt + "!");
+                        //Need to check to see if we're in range here
+                        GameManager.Instance.initiateCombat(GameManager.currentHeroes[i], this); //Initiate combat between the attacker (currenthero[i] and this)
+                        for (int j = 0; j < GameManager.mapX; j++)
                         {
-                            GameManager.mapArray[j, k].square.highlightSquare(false);
+                            for (int k = 0; k < GameManager.mapY; k++)
+                            {
+                                GameManager.mapArray[j, k].square.highlightSquare(false);
+                            }
                         }
+                        GameManager.secondClick = false;				//We're no longer on the second click, reset it
                     }
-					GameManager.secondClick = false;				//We're no longer on the second click, reset it
-				}
-			}
+                }
 
-			} else {												//First click!
-					GameManager.secondClick = true;					//The next click will be the second one
-					Debug.Log ("Hero " + heroInt + " was clicked!");
-					GameManager.heroClicked [heroInt] = true;		//We are clicked! Add us to the clicked list
-					Debug.Log ("Hero " + heroInt + " was clicked!2");
+            }
+            else
+            {												//First click!
+                GameManager.secondClick = true;					//The next click will be the second one
+                Debug.Log("Hero " + heroInt + " was clicked!");
+                GameManager.heroClicked[heroInt] = true;		//We are clicked! Add us to the clicked list
+                Debug.Log("Hero " + heroInt + " was clicked!2");
 
-                    Move(heroAttributes.curPosX, heroAttributes.curPosY, heroAttributes.moveCap); //Start trying to move this hero
-			}
+                Move(heroAttributes.curPosX, heroAttributes.curPosY, heroAttributes.moveCap); //Start trying to move this hero
+            }
+        }
 	}
 
 	public void destroyHero()
