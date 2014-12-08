@@ -54,6 +54,29 @@ public class Hero : MonoBehaviour
      */
     public void Move(int x, int y, int moveCap) //We have an issue here where the x and y values are not linked up somehow with the right squares
     {
+        if (moveCap > 0)
+        {
+            //Whichever of these next two if statements comes first determines where we have the hole. The 2nd one has a hole in it for some reason
+            if (x > 0 && !GameManager.mapArray[x - 1, y].square.isHighlighted())
+            {
+                MoveRecursive(x - 1, y, moveCap - 1);
+            }
+            if (y > 0 && !GameManager.mapArray[x, y - 1].square.isHighlighted())
+            {
+                MoveRecursive(x, y - 1, moveCap - 1);
+            }
+            if ((x < GameManager.mapX - 1) && !GameManager.mapArray[x + 1, y].square.isHighlighted())
+            {
+                MoveRecursive(x + 1, y, moveCap - 1);
+            }
+            if ((y < GameManager.mapY - 1) && !GameManager.mapArray[x, y + 1].square.isHighlighted())
+            {
+                MoveRecursive(x, y + 1, moveCap - 1);
+            }
+        }
+    }
+    public void MoveRecursive(int x, int y, int moveCap)
+    {
         //Mark the square we're selecting
         if (GameManager.mapArray[x, y] != null)
         {
@@ -61,26 +84,27 @@ public class Hero : MonoBehaviour
             {
                 Debug.Log("Highlight square " + GameManager.mapArray[x, y].square.x + ", " + GameManager.mapArray[x, y].square.y);
                 GameManager.mapArray[x, y].square.highlightSquare(true);
-            }
-        }
 
-        if (moveCap > 0)
-        {
-            if (x > 0)
-            {
-                Move(x - 1, y, moveCap - 1);
-            }
-            if (x < GameManager.mapX - 1)
-            {
-                Move(x + 1, y, moveCap - 1);
-            }
-            if (y > 0)
-            {
-                Move(x, y - 1, moveCap - 1);
-            }
-            if (y < GameManager.mapY - 1)
-            {
-                Move(x, y + 1, moveCap - 1);
+                //Move
+                if (moveCap > 0)
+                {
+                    if (x > 0 && !GameManager.mapArray[x - 1, y].square.isHighlighted())
+                    {
+                        MoveRecursive(x - 1, y, moveCap - 1);
+                    }
+                    if ((x < GameManager.mapX - 1) && !GameManager.mapArray[x + 1, y].square.isHighlighted())
+                    {
+                        MoveRecursive(x + 1, y, moveCap - 1);
+                    }
+                    if (y > 0 && !GameManager.mapArray[x, y - 1].square.isHighlighted())
+                    {
+                        MoveRecursive(x, y - 1, moveCap - 1);
+                    }
+                    if ((y < GameManager.mapY - 1) && !GameManager.mapArray[x, y + 1].square.isHighlighted())
+                    {
+                        MoveRecursive(x, y + 1, moveCap - 1);
+                    }
+                }
             }
         }
     }

@@ -40,7 +40,7 @@ public class HeroAttributes : MonoBehaviour {
 			baseDefense = 8;
 			oneRange = true;
 			twoRange = false;
-			moveCap = 2;
+			moveCap = 4;
 			break;
 		case 2:     //Archer
 			baseMaxHealth = 20;
@@ -48,7 +48,7 @@ public class HeroAttributes : MonoBehaviour {
 			baseDefense = 6;
 			oneRange = false;
 			twoRange = true;
-			moveCap = 4;
+			moveCap = 3;
 			break;
 		case 3:     //mage?
 			baseMaxHealth = 15;
@@ -80,15 +80,14 @@ public class HeroAttributes : MonoBehaviour {
                 exp = exp + (10 - levelDiff) * 5;
             else
                 exp = exp + 50 + levelDiff * 5;
-
-            if (exp > 99)
-            {
-                exp = exp - 100;
-                levelUp();
-            }
         }
         else
             exp = exp + 10 + levelDiff;
+        if (exp > 99)
+        {
+            exp = exp - 100;
+            levelUp();
+        }
     }
 
     public void levelUp()
