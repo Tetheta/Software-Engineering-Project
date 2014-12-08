@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿/* Program   : Networking.cs  
+ * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
+ * Date      : Wednesday, December 17 2014
+ * Files     : The files are all linked through the Unity Utility
+ * Purpose   :
+ * Change Log: 
+ */
+
+using UnityEngine;
 using System.Collections;
 
 public class Networking : MonoBehaviour

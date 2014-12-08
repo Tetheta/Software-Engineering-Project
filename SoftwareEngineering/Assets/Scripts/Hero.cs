@@ -1,4 +1,19 @@
-﻿using UnityEngine;
+﻿/* Program   : Hero.cs  
+   Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
+   Date      : Wednesday, December 17 2014
+   Files     : The files are all linked through the Unity Utility
+   Purpose   : Has basic functions and functionalities for the units that are on the board. Allows them to attack other units, be created at game start, and the step
+               counters for the specific unit. 
+   Change Log: 11/3/14  - Added/Implemented the addHero function, added comments to some of the if/else statements.
+               11/10/14 - Commented out the update function. 
+               11/14/14 - Added/Implemented the Awake and destroyHero function, comments added.
+               11/17/14 - Added/Implemented the Attack, Die, and waitforDeathAnimation, comments added.
+               11/21/14 - Added/Implemented the Move (Step Counter) function.
+                
+               
+*/
+
+using UnityEngine;
 using System.Collections;
 
 /*
@@ -109,11 +124,13 @@ public class Hero : MonoBehaviour
         }
     }
 
+    //Controls the units attack ability
     public void Attack()
     {
         heroAnimator.SetTrigger("Attack");
     }
 
+    //Activates the units dying animation.
     public void Die()
     {
         GameManager.mapArray[heroAttributes.curPosX, heroAttributes.curPosY].isHero = false;
@@ -121,6 +138,7 @@ public class Hero : MonoBehaviour
         StartCoroutine(waitforDeathAnimation());
     }
 
+    //Waits for the death animation before removing the unit from the board
     IEnumerator waitforDeathAnimation()
     {
         yield return new WaitForSeconds(0.8f);
@@ -173,7 +191,6 @@ public class Hero : MonoBehaviour
 
     public void destroyHero()
     {
-        //SpecialEffectsHelper.Instance.Explosion(transform.position);	//Instantiate an explosion :o
         Destroy(gameObject);
     }
 }

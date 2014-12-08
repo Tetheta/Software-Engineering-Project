@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿/* Program   : GameManager.cs  
+ * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
+ * Date      : Wednesday, December 17 2014
+ * Files     : The files are all linked through the Unity Utility
+ * Purpose   :
+ * Change Log: 
+ */
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -9,7 +17,7 @@ using UnityEngine.UI;
  * This class is designed as a manager of all game functions and activities
  * It is declared as a Singleton here, which means it is never destroyed and can act as
  * A liason between different scenes and objects of the game.
- * 
+ *
  * The public functions it holds can be accessed through this singleton, while the
  * static variables can be accessed directly by calling GameManager.variable
  */
