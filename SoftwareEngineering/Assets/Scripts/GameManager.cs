@@ -223,9 +223,15 @@ public class GameManager : MonoBehaviour
     {
         heroAtk.Attack();
         heroDef.heroAttributes.curHealth -= (heroAtk.heroAttributes.baseDamage - heroDef.heroAttributes.baseDefense);
+        int levelDiff = heroDef.heroAttributes.level - heroAtk.heroAttributes.level;
         if (heroDef.heroAttributes.curHealth <= 0)
         {
             heroDef.Die();
+            heroAtk.heroAttributes.getExp(levelDiff, true);
+        }
+        else
+        {
+            heroAtk.heroAttributes.getExp(levelDiff, false);
         }
     }
 

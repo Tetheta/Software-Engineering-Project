@@ -71,4 +71,58 @@ public class HeroAttributes : MonoBehaviour {
 		exp = 0;
 		curHealth = baseMaxHealth; //Set our current health to our max
 	}
+
+    public void getExp(int levelDiff, bool kill)
+    {
+        if (kill)
+        {
+            if (levelDiff < 0)
+                exp = exp + (10 - levelDiff) * 5;
+            else
+                exp = exp + 50 + levelDiff * 5;
+
+            if (exp > 99)
+            {
+                exp = exp - 100;
+                levelUp();
+            }
+        }
+        else
+            exp = exp + 10 + levelDiff;
+    }
+
+    public void levelUp()
+    {
+        switch (heroClass)
+        {
+            case 1:     //Warrior
+                baseMaxHealth += 3;
+                baseDamage += 4;
+                baseDefense += 3;
+                curHealth += 3;
+                break;
+            case 2:     //Archer
+                baseMaxHealth += 2;
+                baseDamage += 4;
+                baseDefense += 3;
+                curHealth += 2;
+                break;
+            case 3:     //mage?
+                baseMaxHealth += 2;
+                baseDamage += 5;
+                baseDefense += 2;
+                curHealth += 2;
+                break;
+            default:      //lulz unit
+                baseMaxHealth = 1;
+                baseDamage = 0;
+                baseDefense = 0;
+                break;
+        }
+        level += 1;
+        if (curHealth > baseMaxHealth)
+        {
+            curHealth = baseMaxHealth;
+        }
+    }
 }
