@@ -57,26 +57,27 @@ public class Hero : MonoBehaviour
         if (moveCap > 0)
         {
             //Whichever of these next two if statements comes first determines where we have the hole. The 2nd one has a hole in it for some reason
-            if (x > 0 && !GameManager.mapArray[x - 1, y].square.isHighlighted())
+            if (x > 0 && GameManager.mapArray[x - 1, y].square.isHighlighted() < 2)
             {
-                MoveRecursive(x - 1, y, moveCap - 1);
+                StartCoroutine(MoveRecursive(x - 1, y, moveCap - 1));
             }
-            if (y > 0 && !GameManager.mapArray[x, y - 1].square.isHighlighted())
+            if (y > 0 && GameManager.mapArray[x, y - 1].square.isHighlighted() < 2)
             {
-                MoveRecursive(x, y - 1, moveCap - 1);
+                StartCoroutine(MoveRecursive(x, y - 1, moveCap - 1));
             }
-            if ((x < GameManager.mapX - 1) && !GameManager.mapArray[x + 1, y].square.isHighlighted())
+            if ((x < GameManager.mapX - 1) && GameManager.mapArray[x + 1, y].square.isHighlighted() < 2)
             {
-                MoveRecursive(x + 1, y, moveCap - 1);
+                StartCoroutine(MoveRecursive(x + 1, y, moveCap - 1));
             }
-            if ((y < GameManager.mapY - 1) && !GameManager.mapArray[x, y + 1].square.isHighlighted())
+            if ((y < GameManager.mapY - 1) && GameManager.mapArray[x, y + 1].square.isHighlighted() < 2)
             {
-                MoveRecursive(x, y + 1, moveCap - 1);
+                StartCoroutine(MoveRecursive(x, y + 1, moveCap - 1));
             }
         }
     }
-    public void MoveRecursive(int x, int y, int moveCap)
+   IEnumerator MoveRecursive(int x, int y, int moveCap)
     {
+        yield return new WaitForSeconds(0.01f); //Wait for two seconds before continuing
         //Mark the square we're selecting
         if (GameManager.mapArray[x, y] != null)
         {
@@ -84,30 +85,61 @@ public class Hero : MonoBehaviour
             {
                 Debug.Log("Highlight square " + GameManager.mapArray[x, y].square.x + ", " + GameManager.mapArray[x, y].square.y);
                 GameManager.mapArray[x, y].square.highlightSquare(true);
-
                 //Move
                 if (moveCap > 0)
                 {
-                    if (x > 0 && !GameManager.mapArray[x - 1, y].square.isHighlighted())
+                    if (x > 0 && GameManager.mapArray[x - 1, y].square.isHighlighted() < 2)
                     {
-                        MoveRecursive(x - 1, y, moveCap - 1);
+                        StartCoroutine(MoveRecursive(x - 1, y, moveCap - 1));
                     }
-                    if ((x < GameManager.mapX - 1) && !GameManager.mapArray[x + 1, y].square.isHighlighted())
+                    if (y > 0 && GameManager.mapArray[x, y - 1].square.isHighlighted() < 2)
                     {
-                        MoveRecursive(x + 1, y, moveCap - 1);
+                        StartCoroutine(MoveRecursive(x, y - 1, moveCap - 1));
                     }
-                    if (y > 0 && !GameManager.mapArray[x, y - 1].square.isHighlighted())
+                    if ((y < GameManager.mapY - 1) && GameManager.mapArray[x, y + 1].square.isHighlighted() < 2)
                     {
-                        MoveRecursive(x, y - 1, moveCap - 1);
+                        StartCoroutine(MoveRecursive(x, y + 1, moveCap - 1));
                     }
-                    if ((y < GameManager.mapY - 1) && !GameManager.mapArray[x, y + 1].square.isHighlighted())
+                    if ((x < GameManager.mapX - 1) && GameManager.mapArray[x + 1, y].square.isHighlighted() < 2)
                     {
-                        MoveRecursive(x, y + 1, moveCap - 1);
+                        StartCoroutine(MoveRecursive(x + 1, y, moveCap - 1));
                     }
                 }
             }
         }
     }
+    //public void MoveRecursive(int x, int y, int moveCap)
+    //{
+    //    //Mark the square we're selecting
+    //    if (GameManager.mapArray[x, y] != null)
+    //    {
+    //        if (!GameManager.mapArray[x, y].isHero) //TROUBLE BREWS, FEAR YE WHO ENTER
+    //        {
+    //            Debug.Log("Highlight square " + GameManager.mapArray[x, y].square.x + ", " + GameManager.mapArray[x, y].square.y);
+    //            GameManager.mapArray[x, y].square.highlightSquare(true);
+    //            //Move
+    //            if (moveCap > 0)
+    //            {
+    //                if (x > 0 && GameManager.mapArray[x - 1, y].square.isHighlighted() < 3)
+    //                {
+    //                    MoveRecursive(x - 1, y, moveCap - 1);
+    //                }
+    //                if (y > 0 && GameManager.mapArray[x, y - 1].square.isHighlighted() < 3)
+    //                {
+    //                    MoveRecursive(x, y - 1, moveCap - 1);
+    //                }
+    //                if ((y < GameManager.mapY - 1) && GameManager.mapArray[x, y + 1].square.isHighlighted() < 3)
+    //                {
+    //                    MoveRecursive(x, y + 1, moveCap - 1);
+    //                }
+    //                if ((x < GameManager.mapX - 1) && GameManager.mapArray[x + 1, y].square.isHighlighted() < 3)
+    //                {
+    //                    MoveRecursive(x + 1, y, moveCap - 1);
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
     public void Attack()
     {

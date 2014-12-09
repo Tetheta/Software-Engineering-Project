@@ -11,7 +11,7 @@ public class Square : MonoBehaviour
 {
     public int x, y; //Or location for this square
     private GameObject highlight;
-    private bool highlighted = false;
+    private int highlighted = 0;
     private bool canMoveTo = false;
     // Use this for initialization
     void Start()
@@ -38,12 +38,15 @@ public class Square : MonoBehaviour
      */
     public void highlightSquare(bool value)
     {
-        highlighted = value;
+        if (value)
+            highlighted += 1;
+        else
+            highlighted = 0;
         highlight.SetActive(value);
         canMoveTo = value;
     }
 
-    public bool isHighlighted()
+    public int isHighlighted()
     {
         return highlighted;
     }
