@@ -60,6 +60,7 @@
      <Compile Include="Assets\ExteriorAssets\MotionBlur\MotionBlurMeshUtility.cs" />
      <Compile Include="Assets\Scripts\CameraScroll.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\GameSetup.cs" />
      <Compile Include="Assets\Scripts\Hero.cs" />
      <Compile Include="Assets\Scripts\HeroAttributes.cs" />
      <Compile Include="Assets\Scripts\LoadScene.cs" />

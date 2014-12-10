@@ -88,8 +88,8 @@ public class GameManager : MonoBehaviour
             tileTypes[i] = terrainTile;
         }
         //Create our unit selections, currently just hard coding this
-        unitSelection1 = new int[4] { 3, 2, 1, 0 };
-        unitSelection2 = new int[4] { 2, 2, 2, 0 };
+        unitSelection1 = new int[4] { PlayerPrefs.GetInt("Warriors"), PlayerPrefs.GetInt("Archers"), PlayerPrefs.GetInt("Mages"), 0 };
+        unitSelection2 = new int[4] { PlayerPrefs.GetInt("Warriors"), PlayerPrefs.GetInt("Archers"), PlayerPrefs.GetInt("Mages"), 0 };
         createMap();
     }
 
@@ -221,17 +221,21 @@ public class GameManager : MonoBehaviour
      */
     public void initiateCombat(Hero heroAtk, Hero heroDef)
     {
-        heroAtk.Attack();
-        heroDef.heroAttributes.curHealth -= (heroAtk.heroAttributes.baseDamage - heroDef.heroAttributes.baseDefense);
-        int levelDiff = heroDef.heroAttributes.level - heroAtk.heroAttributes.level;
-        if (heroDef.heroAttributes.curHealth <= 0)
+        if (heroAtk.heroAttributes.team != heroDef.heroAttributes.team)
         {
-            heroDef.Die();
-            heroAtk.heroAttributes.getExp(levelDiff, true);
-        }
-        else
-        {
-            heroAtk.heroAttributes.getExp(levelDiff, false);
+            heroAtk.Attack();
+            heroDef.heroAttributes.curHealth -= (heroAtk.heroAttributes.baseDamage - heroDef.heroAttributes.baseDefense);
+            int levelDiff = heroDef.heroAttributes.level - heroAtk.heroAttributes.level;
+            if (heroDef.heroAttributes.curHealth <= 0)
+            {
+                heroDef.Die();
+                heroAtk.heroAttributes.getExp(levelDiff, true);
+            }
+            else
+            {
+                heroAtk.heroAttributes.getExp(levelDiff, false);
+            }
+            heroAtk.heroAttributes.active = false;
         }
     }
 

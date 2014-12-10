@@ -14,6 +14,7 @@ public class HeroAttributes : MonoBehaviour {
 	public int team;   // team identifier
 	public int heroID;  //which hero it is
     public bool active; //Is it this unit's turn atm?
+    public bool hasMoved; //Has this unit moved yet?
 
 	public int curHealth; //Current health of the player
 	public int curPosX; 
@@ -70,6 +71,10 @@ public class HeroAttributes : MonoBehaviour {
 		level = 1;
 		exp = 0;
 		curHealth = baseMaxHealth; //Set our current health to our max
+        if(team == 1)
+        {
+            active = true;
+        }
 	}
 
     public void getExp(int levelDiff, bool kill)
