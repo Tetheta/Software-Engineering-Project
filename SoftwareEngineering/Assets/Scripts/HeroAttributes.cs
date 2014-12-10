@@ -7,13 +7,13 @@ public class HeroAttributes : MonoBehaviour {
 	public int baseDamage;      //How hard the hero hits
 	public int baseDefense;    //How much the hero resists taking damage
 	public int heroClass; //use int identifiers for the different classes and use the classes to dictate other stats
-	public bool oneRange; //can attack adjacent
-	public bool twoRange; //can attack from two spaces
+	public int minRange; //can attack adjacent
+	public int maxRange; //can attack from AFLAC
 	public int level, exp; //level and exp
 	public int moveCap;  //max spaces to walk per turn
 	public int team;   // team identifier
 	public int heroID;  //which hero it is
-    public bool active; //Is it this unit's turn atm?
+    public bool hasAttacked; //Is it this unit's turn atm?
     public bool hasMoved; //Has this unit moved yet?
 
 	public int curHealth; //Current health of the player
@@ -39,33 +39,33 @@ public class HeroAttributes : MonoBehaviour {
 			baseMaxHealth = 25;
 			baseDamage = 15;
 			baseDefense = 8;
-			oneRange = true;
-			twoRange = false;
+			minRange = 1;
+			maxRange = 1;
 			moveCap = 4;
 			break;
 		case 2:     //Archer
 			baseMaxHealth = 20;
 			baseDamage = 12;
 			baseDefense = 6;
-			oneRange = false;
-			twoRange = true;
+			minRange = 2;
+			maxRange = 2;
 			moveCap = 3;
 			break;
 		case 3:     //mage?
 			baseMaxHealth = 15;
 			baseDamage = 15;
 			baseDefense = 4;
-			oneRange = true;
-			twoRange = true;
+			minRange = 1;
+			maxRange = 2;
 			moveCap = 2;
 			break;
-		default:      //lulz unit
-			baseMaxHealth = 1;
-			baseDamage = 0;
-			baseDefense = 0;
-			oneRange = false;
-			twoRange = false;
-			moveCap = 2;
+		default:      //LOL I R BASE GUYZ
+			baseMaxHealth = 200;
+			baseDamage = 1;
+			baseDefense = 1;
+			minRange = 1;
+			maxRange = 1;
+			moveCap = 1;
 			break;
 		}
 		level = 1;
@@ -73,7 +73,7 @@ public class HeroAttributes : MonoBehaviour {
 		curHealth = baseMaxHealth; //Set our current health to our max
         if(team == 1)
         {
-            active = true;
+            hasAttacked = false;
         }
 	}
 

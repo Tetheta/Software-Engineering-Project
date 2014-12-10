@@ -11,12 +11,12 @@ public class GameSetup : MonoBehaviour {
     private void Start()
     {
         // Add listener to catch the submit (when set Submit button is pressed)
-        nameInputField.onSubmit.AddListener((value) => getWarriors(value));
+//        nameInputField.onSubmit.AddListener((value) => getWarriors(value));
         // Add validation
-        nameInputField.validation = InputField.Validation.Alphanumeric;
+//        nameInputField.validation = InputField.Validation.Alphanumeric;
 
         // This is a setup for a button that grabs the field value when pressed
-        submitButton.onClick.AddListener(() => getWarriors(nameInputField.value));
+//        submitButton.onClick.AddListener(() => getWarriors(nameInputField.value));
     }
 
     public void getWarriors(string numWarriors)

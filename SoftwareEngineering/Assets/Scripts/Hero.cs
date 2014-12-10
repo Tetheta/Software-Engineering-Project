@@ -78,9 +78,9 @@ public class Hero : MonoBehaviour
             }
             heroAttributes.hasMoved = true;
         }
-        
+
     }
-   IEnumerator MoveRecursive(int x, int y, int moveCap)
+    IEnumerator MoveRecursive(int x, int y, int moveCap)
     {
         yield return new WaitForSeconds(0.001f); //Wait for two seconds before continuing
         //Mark the square we're selecting
@@ -119,6 +119,71 @@ public class Hero : MonoBehaviour
         heroAnimator.SetTrigger("Attack");
     }
 
+    public void attackRange(int HEROLOCATIONX, int HEROLOCATIONY) //Not sure if we need to pass these variables? Or possibly the max and min attack ranges as well?
+    {
+        //This function uses 2 for loops and 4 if statements to find and .square.highlightAttackSquare(true);the correct squares
+        Debug.Log("Entered attackRange Function");
+        int sum = 0;
+
+        for (int i = 1; i <= heroAttributes.maxRange; i++)
+        {
+            Debug.Log("Entered attackRange Function first for loop");
+            sum = 0;
+            for (int j = 0; sum <= heroAttributes.maxRange; j++)
+            {
+                Debug.Log("Entered attackRange Function second for loop");
+                sum = i + j;
+                if (sum <= heroAttributes.maxRange && sum >= heroAttributes.minRange)
+                {
+                    Debug.Log("Entered attackRange Function max/min range if statement");
+                    if ((HEROLOCATIONX + i < GameManager.mapX) &&
+                        (HEROLOCATIONY + j < GameManager.mapY) &&
+                        !GameManager.mapArray[HEROLOCATIONX + i, HEROLOCATIONY + j].square.isAttackHighlighted())//Check first Quadrant
+                    {
+                        Debug.Log("Highlighting Attack Square");
+                        GameManager.mapArray[HEROLOCATIONX + i, HEROLOCATIONY + j].square.highlightAttackSquare(true);
+                    }
+                    if ((HEROLOCATIONX - j >= 0) &&
+                        (HEROLOCATIONY + i < GameManager.mapY) &&
+                        !GameManager.mapArray[HEROLOCATIONX - j, HEROLOCATIONY + i].square.isAttackHighlighted())//Check Second Quadrant
+                    {
+                        GameManager.mapArray[HEROLOCATIONX - j, HEROLOCATIONY + i].square.highlightAttackSquare(true);
+                    }
+                    if ((HEROLOCATIONX - i >= 0) &&
+                        (HEROLOCATIONY - j >= 0) &&
+                        !GameManager.mapArray[HEROLOCATIONX - i, HEROLOCATIONY - j].square.isAttackHighlighted())//Check Third Quadrant
+                    {
+                        GameManager.mapArray[HEROLOCATIONX - i, HEROLOCATIONY - j].square.highlightAttackSquare(true);
+                    }
+                    if ((HEROLOCATIONX + j < GameManager.mapX) &&
+                        (HEROLOCATIONY - i >= 0) &&
+                        !GameManager.mapArray[HEROLOCATIONX + j, HEROLOCATIONY - i].square.isAttackHighlighted())//Check Fourth Quadrant
+                    {
+                        GameManager.mapArray[HEROLOCATIONX + j, HEROLOCATIONY - i].square.highlightAttackSquare(true);
+                    }
+                }
+            }
+        }
+    }
+
+    public void removeAttackRange(int HEROLOCATIONX, int HEROLOCATIONY)
+    {
+        //Somewhere we need to erase all the highlights, below is the code, but I'm not sure if we want it in it's own function or not?
+        int sum = 0;
+        for (int i = 1; i <= heroAttributes.maxRange; i++)
+        {
+            sum = 0;
+            for (int j = 0; sum <= heroAttributes.maxRange; j++)
+            {
+                sum = i + j;
+                GameManager.mapArray[HEROLOCATIONX + i, HEROLOCATIONY + j].square.highlightAttackSquare(false);
+                GameManager.mapArray[HEROLOCATIONX - j, HEROLOCATIONY + i].square.highlightAttackSquare(false);
+                GameManager.mapArray[HEROLOCATIONX - i, HEROLOCATIONY - j].square.highlightAttackSquare(false);
+                GameManager.mapArray[HEROLOCATIONX + j, HEROLOCATIONY - i].square.highlightAttackSquare(false);
+            }
+        }
+    }
+
     public void Die()
     {
         GameManager.mapArray[heroAttributes.curPosX, heroAttributes.curPosY].isHero = false;
@@ -140,33 +205,35 @@ public class Hero : MonoBehaviour
 
     public void wasClicked()
     {
-
         if (GameManager.secondClick)
         {							//This is the second click
-
-            for (int i = 0; i < GameManager.heroClicked.Count; i++)	//Loop through all of our heroes, to see if they clicked
+            if (GameManager.mapArray[heroAttributes.curPosX, heroAttributes.curPosY].square.isAttackHighlighted())
             {
-                if (GameManager.heroClicked[i] && i != heroInt)		//If a hero was clicked and it's not us... COMBAT!
+                for (int i = 0; i < GameManager.heroClicked.Count; i++)	//Loop through all of our heroes, to see if they clicked
                 {
-                    //COMBAT HAPPENS HERE BECAUSE HYESS
-                    GameManager.heroClicked[i] = false;				//Let the GameManger know that hero is no longer clicked
-                    Debug.Log("Hero #" + i + " Clicked, now going to hurt hero " + heroInt + "!");
-                    //Need to check to see if we're in range here
-                    GameManager.Instance.initiateCombat(GameManager.currentHeroes[i], this); //Initiate combat between the attacker (currenthero[i] and this)
-                    for (int j = 0; j < GameManager.mapX; j++)
+                    if (GameManager.heroClicked[i] && i != heroInt)		//If a hero was clicked and it's not us... COMBAT!
                     {
-                        for (int k = 0; k < GameManager.mapY; k++)
+                        //COMBAT HAPPENS HERE BECAUSE HYESS
+                        GameManager.heroClicked[i] = false;				//Let the GameManger know that hero is no longer clicked
+                        Debug.Log("Hero #" + i + " Clicked, now going to hurt hero " + heroInt + "!");
+                        //Need to check to see if we're in range here
+                        GameManager.Instance.initiateCombat(GameManager.currentHeroes[i], this); //Initiate combat between the attacker (currenthero[i] and this)
+                        for (int j = 0; j < GameManager.mapX; j++)
                         {
-                            GameManager.mapArray[j, k].square.highlightSquare(false);
+                            for (int k = 0; k < GameManager.mapY; k++)
+                            {
+                                GameManager.mapArray[j, k].square.highlightSquare(false);
+                                GameManager.mapArray[j, k].square.highlightAttackSquare(false);
+                            }
                         }
+                        GameManager.secondClick = false;				//We're no longer on the second click, reset it
                     }
-                    GameManager.secondClick = false;				//We're no longer on the second click, reset it
                 }
             }
-
         }
-        else if (heroAttributes.active) //Make sure we can be clicked
+        else if (!heroAttributes.hasAttacked) //Make sure we can be clicked
         {												//First click!
+            attackRange(heroAttributes.curPosX, heroAttributes.curPosY); //Set up our possible attack range
             GameManager.secondClick = true;					//The next click will be the second one
             Debug.Log("Hero " + heroInt + " was clicked!");
             GameManager.heroClicked[heroInt] = true;		//We are clicked! Add us to the clicked list

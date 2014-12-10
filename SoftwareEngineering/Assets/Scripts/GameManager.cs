@@ -215,6 +215,7 @@ public class GameManager : MonoBehaviour
         currentHeroes[hNum].heroAttributes.curPosX = x;
         currentHeroes[hNum].heroAttributes.curPosY = y;
         currentHeroes[hNum].transform.position = newPos.position;
+        currentHeroes[hNum].removeAttackRange();
     }
 
     /*
@@ -237,7 +238,7 @@ public class GameManager : MonoBehaviour
             {
                 heroAtk.heroAttributes.getExp(levelDiff, false);
             }
-            heroAtk.heroAttributes.active = false;
+            heroAtk.heroAttributes.hasAttacked = true;
         }
     }
 
@@ -251,12 +252,12 @@ public class GameManager : MonoBehaviour
         {
             if (currentHeroes[i].heroAttributes.team == curTeam)
             {
-                currentHeroes[i].heroAttributes.active = false;
+                currentHeroes[i].heroAttributes.hasAttacked = true;
                 currentHeroes[i].heroAttributes.hasMoved = true;
             }
             else //This only allows for a 2 player game,since it assumes anything not in team one is going to be set active
             {
-                currentHeroes[i].heroAttributes.active = true;
+                currentHeroes[i].heroAttributes.hasAttacked = false;
                 currentHeroes[i].heroAttributes.hasMoved = false;
             }
         }

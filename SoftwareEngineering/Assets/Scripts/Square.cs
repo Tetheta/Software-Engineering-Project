@@ -11,8 +11,11 @@ public class Square : MonoBehaviour
 {
     public int x, y; //Or location for this square
     private GameObject highlight;
+    private GameObject attackHighlight;
     private int highlighted = 0;
+    private bool attackHighlighted = false;
     private bool canMoveTo = false;
+    private bool canAttack = false;
     // Use this for initialization
     void Start()
     {
@@ -22,6 +25,11 @@ public class Square : MonoBehaviour
             {
                 highlight = t.gameObject; //Grab the child highlight object
                 highlight.SetActive(false);
+            }
+            else if (t.name == "attackHighlight")
+            {
+                attackHighlight = t.gameObject; //Grab the child attackHighlight object
+                attackHighlight.SetActive(false);
             }
         }
     }
@@ -49,6 +57,17 @@ public class Square : MonoBehaviour
     public int isHighlighted()
     {
         return highlighted;
+    }
+
+    public void highlightAttackSquare(bool value)
+    {
+        Debug.Log("Highlight Attack in Square");
+        attackHighlighted = value;
+        attackHighlight.SetActive(value);
+    }
+    public bool isAttackHighlighted()
+    {
+        return attackHighlighted;
     }
 
     /*
