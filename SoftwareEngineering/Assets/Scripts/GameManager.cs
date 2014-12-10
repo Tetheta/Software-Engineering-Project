@@ -88,8 +88,10 @@ public class GameManager : MonoBehaviour
             tileTypes[i] = terrainTile;
         }
         //Create our unit selections, currently just hard coding this
-        unitSelection1 = new int[4] { PlayerPrefs.GetInt("Warriors"), PlayerPrefs.GetInt("Archers"), PlayerPrefs.GetInt("Mages"), 0 };
-        unitSelection2 = new int[4] { PlayerPrefs.GetInt("Warriors"), PlayerPrefs.GetInt("Archers"), PlayerPrefs.GetInt("Mages"), 0 };
+        //unitSelection1 = new int[4] { PlayerPrefs.GetInt("Warriors"), PlayerPrefs.GetInt("Archers"), PlayerPrefs.GetInt("Mages"), 0 };
+        //unitSelection2 = new int[4] { PlayerPrefs.GetInt("Warriors"), PlayerPrefs.GetInt("Archers"), PlayerPrefs.GetInt("Mages"), 0 };
+        unitSelection1 = new int[4] { 2, 2, 2, 0 };
+        unitSelection2 = new int[4] { 2, 2, 2, 0 };
         createMap();
     }
 
@@ -123,7 +125,7 @@ public class GameManager : MonoBehaviour
         {
             for (int j = 0; j < mapY; j++)
             {
-                if (i < 2)
+                if (((i+j) < 3) || (((mapX - i) + (mapY - j)) < 5))
                 {
                     teamSel = -1;
                     unitSel = -1;
@@ -250,10 +252,12 @@ public class GameManager : MonoBehaviour
             if (currentHeroes[i].heroAttributes.team == curTeam)
             {
                 currentHeroes[i].heroAttributes.active = false;
+                currentHeroes[i].heroAttributes.hasMoved = true;
             }
             else //This only allows for a 2 player game,since it assumes anything not in team one is going to be set active
             {
                 currentHeroes[i].heroAttributes.active = true;
+                currentHeroes[i].heroAttributes.hasMoved = false;
             }
         }
         if (curTeam == 1)
