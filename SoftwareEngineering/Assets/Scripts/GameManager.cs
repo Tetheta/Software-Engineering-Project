@@ -158,7 +158,7 @@ public class GameManager : MonoBehaviour
             temp.transform.parent = MainCanvas;
             mapArray[xPlace, yPlace].isHero = true;
 
-            if (xPlace == 0)
+            if (xPlace == 0) //Placement starts at 0,0, then 1,0, 0,1, then 2,0, 1,1, 0,2, etc...
             {
                 xFurthest++;
                 xPlace = xFurthest;
