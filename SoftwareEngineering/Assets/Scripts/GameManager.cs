@@ -90,8 +90,8 @@ public class GameManager : MonoBehaviour
         //Create our unit selections, currently just hard coding this
         //unitSelection1 = new int[4] { PlayerPrefs.GetInt("Warriors"), PlayerPrefs.GetInt("Archers"), PlayerPrefs.GetInt("Mages"), 0 };
         //unitSelection2 = new int[4] { PlayerPrefs.GetInt("Warriors"), PlayerPrefs.GetInt("Archers"), PlayerPrefs.GetInt("Mages"), 0 };
-        unitSelection1 = new int[4] { 2, 2, 2, 0 };
-        unitSelection2 = new int[4] { 2, 2, 2, 0 };
+        unitSelection1 = new int[4] { 2, 3, 2, 1 };
+        unitSelection2 = new int[4] { 2, 2, 4, 1 };
         createMap();
     }
 
@@ -118,8 +118,124 @@ public class GameManager : MonoBehaviour
                 mapArray[i, j].square.y = j;
             }
         }
+//////////////////////////////////Work in progress
+        //Start team 1 placement
+        teamSel = 1;
+        int xPlace = 0;
+        int xFurthest = 0;
+        int yPlace = 0;
+        while ((unitSelection1[0] + unitSelection1[1] + unitSelection1[2] + unitSelection1[3]) != 0)
+        {
+            if (xPlace == 1 && yPlace == 1)
+            {
+                {
+                    unitSel = 4;
+                    unitSelection1[3] -= 1;
+                }
+            }
+            else if (unitSelection1[2] > 0)
+            {
+                unitSel = 3;
+                unitSelection1[2] -= 1;
+            }
+            else if (unitSelection1[1] > 0)
+            {
+                unitSel = 2;
+                unitSelection1[1] -= 1;
+            }
+            else if (unitSelection1[0] > 0)
+            {
+                unitSel = 1;
+                unitSelection1[0] -= 1;
+            }
+            temp = (GameObject)Instantiate(heroObject,
+                                                   new Vector2(((xPlace - mapX / 2) * tileX), ((yPlace - mapY / 2) * tileY)),
+                                                   Quaternion.identity);
+            tempHeroScript = temp.GetComponent<Hero>();
+            tempHeroScript.heroAttributes.curPosX = xPlace;
+            tempHeroScript.heroAttributes.curPosY = yPlace;
+            tempHeroScript.heroAttributes.heroMake(unitSel, teamSel);
+            temp.transform.parent = MainCanvas;
+            mapArray[xPlace, yPlace].isHero = true;
 
+            if (xPlace == 0)
+            {
+                xFurthest++;
+                xPlace = xFurthest;
+                yPlace = 0;
+            }
+            else
+            {
+                yPlace++;
+                xPlace--;
+            }
+        }
+        //Start team 2 placement
+        teamSel = 2;
+        xPlace = mapX - 1;
+        yPlace = mapY - 1;
+        xFurthest = mapX - 1;
+        while ((unitSelection2[0] + unitSelection2[1] + unitSelection2[2] + unitSelection2[3]) != 0)
+        {
+            if (xPlace == (mapX - 2) && yPlace == (mapY-2))
+            {
+                {
+                    unitSel = 4;
+                    unitSelection2[3] -= 1;
+                }
+            }
+            else if (unitSelection2[2] > 0)
+            {
+                unitSel = 3;
+                unitSelection2[2] -= 1;
+            }
+            else if (unitSelection2[1] > 0)
+            {
+                unitSel = 2;
+                unitSelection2[1] -= 1;
+            }
+            else if (unitSelection2[0] > 0)
+            {
+                unitSel = 1;
+                unitSelection2[0] -= 1;
+            }
+            temp = (GameObject)Instantiate(heroObject,
+                                                   new Vector2(((xPlace - mapX / 2) * tileX), ((yPlace - mapY / 2) * tileY)),
+                                                   Quaternion.identity);
+            tempHeroScript = temp.GetComponent<Hero>();
+            tempHeroScript.heroAttributes.curPosX = xPlace;
+            tempHeroScript.heroAttributes.curPosY = yPlace;
+            tempHeroScript.heroAttributes.heroMake(unitSel, teamSel);
+            temp.transform.parent = MainCanvas;
+            mapArray[xPlace, yPlace].isHero = true;
 
+            if (xPlace == mapX - 1)
+            {
+                xFurthest--;
+                xPlace = xFurthest;
+                yPlace = mapY - 1;
+            }
+            else
+            {
+                yPlace--;
+                xPlace++;
+            }
+        }
+
+        for (int i = mapX - 1; i >= 0; i--)
+        {
+            temp = (GameObject)Instantiate(heroObject,
+                                                   new Vector2(((i - mapX / 2) * tileX), (((mapY - 1 - i) - mapY / 2) * tileY)),
+                                                   Quaternion.identity);
+            tempHeroScript = temp.GetComponent<Hero>();
+            tempHeroScript.heroAttributes.curPosX = i;
+            tempHeroScript.heroAttributes.curPosY = mapY - i;
+            tempHeroScript.heroAttributes.heroMake(1, 3);
+            temp.transform.parent = MainCanvas;
+            mapArray[i, mapY - i].isHero = true;
+        }
+/////////////////////////////////End Work in progress
+/*
         //Instantiate our map
         for (int i = 0; i < mapX; i++)
         {
@@ -193,8 +309,19 @@ public class GameManager : MonoBehaviour
 
             }
         }
-
-
+        for (int i = mapX - 1; i >= 0; i--)
+        {
+            temp = (GameObject)Instantiate(heroObject,
+                                                   new Vector2(((i - mapX / 2) * tileX), (((mapY - 1 - i) - mapY / 2) * tileY)),
+                                                   Quaternion.identity);
+            tempHeroScript = temp.GetComponent<Hero>();
+            tempHeroScript.heroAttributes.curPosX = i;
+            tempHeroScript.heroAttributes.curPosY = mapY - i;
+            tempHeroScript.heroAttributes.heroMake(1, 3);
+            temp.transform.parent = MainCanvas;
+            mapArray[i, mapY - i].isHero = true;
+        }
+        */
 
     }
 
@@ -215,7 +342,7 @@ public class GameManager : MonoBehaviour
         currentHeroes[hNum].heroAttributes.curPosX = x;
         currentHeroes[hNum].heroAttributes.curPosY = y;
         currentHeroes[hNum].transform.position = newPos.position;
-        currentHeroes[hNum].removeAttackRange();
+ //       currentHeroes[hNum].removeAttackRange();                   //Needs work
     }
 
     /*

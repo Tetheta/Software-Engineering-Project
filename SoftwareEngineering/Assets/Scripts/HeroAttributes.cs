@@ -51,22 +51,30 @@ public class HeroAttributes : MonoBehaviour {
 			maxRange = 2;
 			moveCap = 3;
 			break;
-		case 3:     //mage?
+		case 3:     //mage
 			baseMaxHealth = 15;
 			baseDamage = 15;
 			baseDefense = 4;
 			minRange = 1;
 			maxRange = 2;
-			moveCap = 2;
+			moveCap = 3;
 			break;
-		default:      //LOL I R BASE GUYZ
+        case 4:      //LOL I R BASE GUYZ
 			baseMaxHealth = 200;
+			baseDamage = 0;
+			baseDefense = 0;
+			minRange = 1;
+			maxRange = 1;
+			moveCap = 0;
+			break;
+        default:      //Think about adding tanks and healers
+            baseMaxHealth = 1;
 			baseDamage = 1;
 			baseDefense = 1;
 			minRange = 1;
 			maxRange = 1;
 			moveCap = 1;
-			break;
+            break;
 		}
 		level = 1;
 		exp = 0;

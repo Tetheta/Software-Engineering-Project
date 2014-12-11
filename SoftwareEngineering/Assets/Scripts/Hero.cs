@@ -173,7 +173,7 @@ public class Hero : MonoBehaviour
         for (int i = 1; i <= heroAttributes.maxRange; i++)
         {
             sum = 0;
-            for (int j = 0; sum <= heroAttributes.maxRange; j++)
+            for (int j = 0; sum < heroAttributes.maxRange; j++)
             {
                 sum = i + j;
                 GameManager.mapArray[HEROLOCATIONX + i, HEROLOCATIONY + j].square.highlightAttackSquare(false);
