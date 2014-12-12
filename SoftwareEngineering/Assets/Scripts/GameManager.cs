@@ -232,7 +232,7 @@ public class GameManager : MonoBehaviour
             tempHeroScript.heroAttributes.curPosY = mapY - i;
             tempHeroScript.heroAttributes.heroMake(1, 3);
             temp.transform.parent = MainCanvas;
-            mapArray[i, mapY - i].isHero = true;
+            mapArray[i, mapY - 1 - i].isHero = true;
         }
 /////////////////////////////////End Work in progress
 /*
@@ -342,7 +342,6 @@ public class GameManager : MonoBehaviour
         currentHeroes[hNum].heroAttributes.curPosX = x;
         currentHeroes[hNum].heroAttributes.curPosY = y;
         currentHeroes[hNum].transform.position = newPos.position;
- //       currentHeroes[hNum].removeAttackRange();                   //Needs work
     }
 
     /*
@@ -367,6 +366,7 @@ public class GameManager : MonoBehaviour
             }
             heroAtk.heroAttributes.hasAttacked = true;
         }
+        heroAtk.removeAttackRange();                   //Needs work
     }
 
     /*

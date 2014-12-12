@@ -95,6 +95,11 @@ public class Square : MonoBehaviour
                             }
                         }
                     }
+                    else
+                    {
+                        GameManager.currentHeroes[i].removeAttackRange();
+                        GameManager.secondClick = false;
+                    }
                 }
             }
         }

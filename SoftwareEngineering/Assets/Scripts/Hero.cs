@@ -52,13 +52,13 @@ public class Hero : MonoBehaviour
      * Input: an int for the maximum movement
      * Output: The hero moves, but nothing is returned
      */
-    public void Move(int x, int y, int moveCap) //We have an issue here where the x and y values are not linked up somehow with the right squares
+    public void Move(int x, int y, int moveCap) 
     {
         if (heroAttributes.hasMoved == false)
         {
             if (moveCap > 0)
             {
-                //Whichever of these next two if statements comes first determines where we have the hole. The 2nd one has a hole in it for some reason
+                
                 if (x > 0 && GameManager.mapArray[x - 1, y].square.isHighlighted() < 2)
                 {
                     StartCoroutine(MoveRecursive(x - 1, y, moveCap - 1));
@@ -82,7 +82,7 @@ public class Hero : MonoBehaviour
     }
     IEnumerator MoveRecursive(int x, int y, int moveCap)
     {
-        yield return new WaitForSeconds(0.001f); //Wait for two seconds before continuing
+        yield return new WaitForSeconds(0.001f); //Wait before continuing
         //Mark the square we're selecting
         if (GameManager.mapArray[x, y] != null)
         {
@@ -119,8 +119,10 @@ public class Hero : MonoBehaviour
         heroAnimator.SetTrigger("Attack");
     }
 
-    public void attackRange(int HEROLOCATIONX, int HEROLOCATIONY) //Not sure if we need to pass these variables? Or possibly the max and min attack ranges as well?
+    public void attackRange() //Not sure if we need to pass these variables? Or possibly the max and min attack ranges as well?
     {
+        int HEROLOCATIONX = heroAttributes.curPosX;
+        int HEROLOCATIONY = heroAttributes.curPosY;
         //This function uses 2 for loops and 4 if statements to find and .square.highlightAttackSquare(true);the correct squares
         Debug.Log("Entered attackRange Function");
         int sum = 0;
@@ -166,20 +168,32 @@ public class Hero : MonoBehaviour
         }
     }
 
-    public void removeAttackRange(int HEROLOCATIONX, int HEROLOCATIONY)
+    public void removeAttackRange()
     {
-        //Somewhere we need to erase all the highlights, below is the code, but I'm not sure if we want it in it's own function or not?
-        int sum = 0;
-        for (int i = 1; i <= heroAttributes.maxRange; i++)
+        //////Somewhere we need to erase all the highlights, below is the code, but I'm not sure if we want it in it's own function or not?
+        //int HEROLOCATIONX = heroAttributes.curPosX;
+        //int HEROLOCATIONY = heroAttributes.curPosY;
+        //int sum = 0;
+        //for (int i = 1; i <= heroAttributes.maxRange; i++)
+        //{
+        //    sum = 0;
+        //    for (int j = 0; sum < heroAttributes.maxRange; j++)
+        //    {
+        //        sum = i + j;
+        //        GameManager.mapArray[HEROLOCATIONX + i, HEROLOCATIONY + j].square.highlightAttackSquare(false);
+        //        GameManager.mapArray[HEROLOCATIONX - j, HEROLOCATIONY + i].square.highlightAttackSquare(false);
+        //        GameManager.mapArray[HEROLOCATIONX - i, HEROLOCATIONY - j].square.highlightAttackSquare(false);
+        //        GameManager.mapArray[HEROLOCATIONX + j, HEROLOCATIONY - i].square.highlightAttackSquare(false);
+        //    }
+        //}
+        for (int i = 0; i < GameManager.mapX; i++)
         {
-            sum = 0;
-            for (int j = 0; sum < heroAttributes.maxRange; j++)
+            for (int j = 0; j < GameManager.mapY; j++)
             {
-                sum = i + j;
-                GameManager.mapArray[HEROLOCATIONX + i, HEROLOCATIONY + j].square.highlightAttackSquare(false);
-                GameManager.mapArray[HEROLOCATIONX - j, HEROLOCATIONY + i].square.highlightAttackSquare(false);
-                GameManager.mapArray[HEROLOCATIONX - i, HEROLOCATIONY - j].square.highlightAttackSquare(false);
-                GameManager.mapArray[HEROLOCATIONX + j, HEROLOCATIONY - i].square.highlightAttackSquare(false);
+                if (GameManager.mapArray[i, j].square.isAttackHighlighted())
+                {
+                    GameManager.mapArray[i, j].square.highlightAttackSquare(false);
+                }
             }
         }
     }
@@ -218,28 +232,47 @@ public class Hero : MonoBehaviour
                         Debug.Log("Hero #" + i + " Clicked, now going to hurt hero " + heroInt + "!");
                         //Need to check to see if we're in range here
                         GameManager.Instance.initiateCombat(GameManager.currentHeroes[i], this); //Initiate combat between the attacker (currenthero[i] and this)
+                        GameManager.currentHeroes[i].removeAttackRange();
                         for (int j = 0; j < GameManager.mapX; j++)
                         {
                             for (int k = 0; k < GameManager.mapY; k++)
                             {
                                 GameManager.mapArray[j, k].square.highlightSquare(false);
-                                GameManager.mapArray[j, k].square.highlightAttackSquare(false);
                             }
                         }
                         GameManager.secondClick = false;				//We're no longer on the second click, reset it
                     }
                 }
             }
+            else
+            {
+                removeAttackRange();
+                GameManager.secondClick = false;				//We're no longer on the second click, reset it
+            }
         }
         else if (!heroAttributes.hasAttacked) //Make sure we can be clicked
         {												//First click!
-            attackRange(heroAttributes.curPosX, heroAttributes.curPosY); //Set up our possible attack range
+
             GameManager.secondClick = true;					//The next click will be the second one
             Debug.Log("Hero " + heroInt + " was clicked!");
             GameManager.heroClicked[heroInt] = true;		//We are clicked! Add us to the clicked list
             Debug.Log("Hero " + heroInt + " was clicked!2");
-
-            Move(heroAttributes.curPosX, heroAttributes.curPosY, heroAttributes.moveCap); //Start trying to move this hero
+            if (heroAttributes.team > 2)
+            {
+                //Do nothing, we're a neutral mob!
+            }
+            else if (heroAttributes.baseDamage == 0)
+            {
+                //We're the base! WE are so based guyz we don't do anything
+            }
+            else if (heroAttributes.hasMoved)
+            {
+                attackRange(); //Set up our possible attack range
+            }
+            else
+            {
+                Move(heroAttributes.curPosX, heroAttributes.curPosY, heroAttributes.moveCap); //Start trying to move this hero
+            }
         }
     }
 
