@@ -56,9 +56,9 @@ public class Hero : MonoBehaviour
     {
         if (heroAttributes.hasMoved == false)
         {
+            GameManager.mapArray[x, y].square.highlightSquare(true); // added so that you can click on the hero again to hopefully move back to that spot
             if (moveCap > 0)
             {
-                
                 if (x > 0 && GameManager.mapArray[x - 1, y].square.isHighlighted() < 2)
                 {
                     StartCoroutine(MoveRecursive(x - 1, y, moveCap - 1));
@@ -76,7 +76,7 @@ public class Hero : MonoBehaviour
                     StartCoroutine(MoveRecursive(x, y + 1, moveCap - 1));
                 }
             }
-            heroAttributes.hasMoved = true;
+//            heroAttributes.hasMoved = true; //should be set after physical movement
         }
 
     }
@@ -217,9 +217,9 @@ public class Hero : MonoBehaviour
      * If it's the first click, the hero is simply selected and put into the heroClicked list.
      */
 
-    public void wasClicked()
+    public void wasClicked()/*Dane edit:  I really really think we should get rid of secondClick and just have 1 click, then when you move, automatically pop up attack range.  Click on yourself after first click should bring up attack range then without moving, and clicking on yourself after moving should invoke no attack and make the hero inactive.  Also, we really really need clicking outside of the grid to cancel movement without making inactive, and do nothing while attacking.  I think this would fix lots of things. */
     {
-        if (GameManager.secondClick)
+        /*if (GameManager.secondClick)
         {							//This is the second click
             if (GameManager.mapArray[heroAttributes.curPosX, heroAttributes.curPosY].square.isAttackHighlighted())
             {
@@ -272,6 +272,55 @@ public class Hero : MonoBehaviour
             else
             {
                 Move(heroAttributes.curPosX, heroAttributes.curPosY, heroAttributes.moveCap); //Start trying to move this hero
+
+            }
+        }*/
+
+        if (GameManager.mapArray[heroAttributes.curPosX, heroAttributes.curPosY].square.isAttackHighlighted())
+            {
+                for (int i = 0; i < GameManager.heroClicked.Count; i++)	//Loop through all of our heroes, to see if they clicked
+                {
+                    if (GameManager.heroClicked[i] && i != heroInt)		//If a hero was clicked and it's not us... COMBAT!
+                    {
+                        //COMBAT HAPPENS HERE BECAUSE HYESS
+                        GameManager.heroClicked[i] = false;				//Let the GameManger know that hero is no longer clicked
+                        Debug.Log("Hero #" + i + " Clicked, now going to hurt hero " + heroInt + "!");
+                        //Need to check to see if we're in range here
+                        GameManager.Instance.initiateCombat(GameManager.currentHeroes[i], this); //Initiate combat between the attacker (currenthero[i] and this)
+                        GameManager.currentHeroes[i].removeAttackRange();
+                        for (int j = 0; j < GameManager.mapX; j++)
+                        {
+                            for (int k = 0; k < GameManager.mapY; k++)
+                            {
+                                GameManager.mapArray[j, k].square.highlightSquare(false);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                removeAttackRange();
+            }
+        if (!heroAttributes.hasAttacked) //Make sure we can be clicked
+        {												//First click!
+
+            Debug.Log("Hero " + heroInt + " was clicked!");
+            GameManager.heroClicked[heroInt] = true;		//We are clicked! Add us to the clicked list
+            Debug.Log("Hero " + heroInt + " was clicked!2");
+            if (heroAttributes.team > 2)
+            {
+                //Do nothing, we're a neutral mob!
+            }
+            else if (heroAttributes.baseDamage == 0)
+            {
+                //We're the base! WE are so based guyz we don't do anything
+            }
+            else
+            {
+                Move(heroAttributes.curPosX, heroAttributes.curPosY, heroAttributes.moveCap); //Start trying to move this hero
+                heroAttributes.hasMoved = true; //should be set after physical movement
+                attackRange(); //Set up our possible attack range
             }
         }
     }
