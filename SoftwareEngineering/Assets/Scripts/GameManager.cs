@@ -1,4 +1,24 @@
-﻿using UnityEngine;
+﻿/* Program   : Medieval MOBA V0.0.1
+ * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
+ * Date      : Wednesday, December 17 2014
+ * Files     : GameManager.cs
+ * Purpose   : Controls the start up of the game and instantiates objects for the game.
+ * Change Log: 10/26/14 - Added a function that allows us to create a hero and make it a game object.
+ *             10/31/14 - Added variables that allow for control of the units that have been added to the game.
+ *             11/3/14  - Added a function that creates a map as an array, and allows that map to have 
+ *                        specific different types of attributes. Also, commented some of the code.
+ *             11/7/14  - Finished implementing the array that creates the map that the heroes move around on.
+ *             11/10/14 - Added functionality that allows us to determine if a hero is in a specific tile on the map.
+ *             11/14/14 - Added a very basic implementation of the function that is going to allow the units to engage in combat with one another. UNITS CAN KILL OTHER UNITS!
+ *             11/21/14 - Implemented the functionality that highlights the map tiles from the step counter, and finished implementing the step counter.
+ *             12/5/14  - Implemented teams and started turn based functionality, and got a basis for it working.
+ *             12/7/14  - Implemented an experience and leveling system for the units.
+ *             12/8/14  - Added the ability to not attack teammates and added the ability to choose the type of units a team consists of.
+ *             12/10/14 - Implemented unit spawning onto the map. Also began working on placing those units into specific tiles of the map. 
+ *                        Came up with a diagonal based unit placement orientation.         
+ */
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;

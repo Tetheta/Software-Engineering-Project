@@ -1,4 +1,16 @@
-﻿using UnityEngine;
+﻿/* Program   : Medieval MOBA V0.0.1
+ * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
+ * Date      : Wednesday, December 17 2014
+ * Files     : Square.cs
+ * Purpose   : Allows for tile modificationm clickability, and highlighting.
+ * Change Log: 11/3/14  - Added a script that runs for all of the fame tiles that we have on the board.
+ *             11/21/14 - Added highlighting functionality and added safeguards to make sure we had units selected before selecting tiles on the map.
+ *             12/8/14  - Updated the highlighting by making the function return a bool value.
+ *             12/10/14 - Added the attack range tile highlighting ability.            
+ */
+
+
+using UnityEngine;
 using System.Collections;
 //using UnityEngine.UI;
 

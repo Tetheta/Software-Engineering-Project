@@ -1,4 +1,19 @@
-﻿using UnityEngine;
+﻿/* Program   : Medieval MOBA V0.0.1
+ * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
+ * Date      : Wednesday, December 17 2014
+ * Files     : Hero.cs
+ * Purpose   : Control unit movement, selection, attack, and deaths
+ * Change Log: 12/1/14  - Added functionality to highlight the tiles of the map based on what is returned from the step counter.
+ *             12/5/14  - Added some basic turn determiners, which team has control of the board and their respective pieces.
+ *             12/8/14  - Improved the speed of the move counter that we have. Added recursive functionality and improved it to be speedy.
+ *             12/10/14 - Updated the recursive movement function and modified some of the if statements to work with it.  
+ *                        Added non-working attack range code. Changed boundary condition on our max attack range loop.
+ *             12/12/14 - Edited the hasClicked method to try and streamline and debug.
+ *             
+ */
+
+
+using UnityEngine;
 using System.Collections;
 
 /*

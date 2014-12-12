@@ -1,4 +1,14 @@
-﻿using UnityEngine;
+﻿/* Program   : Medieval MOBA V0.0.1
+ * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
+ * Date      : Wednesday, December 17 2014
+ * Files     : Networking.cs
+ * Purpose   : SUPPOSED TO ALLOW NETWORKING, BUT YOU KNOW, HARD NETWORKING IS HARD
+ * Change Log: 
+ *             
+ */
+
+
+using UnityEngine;
 using System.Collections;
 
 public class Networking : MonoBehaviour

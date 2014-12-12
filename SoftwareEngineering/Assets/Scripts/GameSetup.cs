@@ -1,4 +1,14 @@
-﻿using UnityEngine;
+﻿/* Program   : Medieval MOBA V0.0.1
+ * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
+ * Date      : Wednesday, December 17 2014
+ * Files     : GameSetup.cs
+ * Purpose   : Sets up the number of each specific unit a player wants at the start of the match.
+ * Change Log: 12/10/14 - Added this to manage the number of units that each person chooses to generate on the board, not completed yet.
+ *             
+ */
+
+
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System;

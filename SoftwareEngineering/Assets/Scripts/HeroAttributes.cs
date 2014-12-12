@@ -1,4 +1,19 @@
-﻿using UnityEngine;
+﻿/* Program   : Medieval MOBA V0.0.1
+ * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
+ * Date      : Wednesday, December 17 2014
+ * Files     : HeroAttributes.cs
+ * Purpose   : Controls the attributes of all the units in the game for each team.
+ * Change Log: 11/14/14 - Added this to give the units on the board some basic stats, such as health, attack, defense, and adds bounders for attack and movement.
+ *             11/21/14 - Changed to movement limiters by a few ticks.
+ *             12/5/14  - Added a variable to control whether or not it was a units turn to move. Changed the units movement cap again.
+ *             12/7/14  - Added functionality for leveling, gaining experience, and updating hitpoints based on leveling.
+ *             12/8/14  - Changed the movement cap again. Also added the skeleton for the header.
+ *             12/10/14 - Added functionality to determine if a specific unit has moved or not, and added a attack range minimum and maximum value. 
+ *                        Added a case for the bases statistics.           
+ */
+
+
+using UnityEngine;
 using System.Collections;
 
 public class HeroAttributes : MonoBehaviour {

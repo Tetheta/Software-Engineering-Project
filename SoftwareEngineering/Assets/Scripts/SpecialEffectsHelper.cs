@@ -1,4 +1,14 @@
-﻿using UnityEngine;
+﻿/* Program   : Medieval MOBA V0.0.1
+ * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
+ * Date      : Wednesday, December 17 2014
+ * Files     : SpecialEffectsHelper.cs
+ * Purpose   : Adds animations to the units when they die.
+ * Change Log: 11/3/14 - Added this to enabled us to use super awesome special effects when units die.
+ *             12/8/14 - Added the skeleton for the header.          
+ */
+
+
+using UnityEngine;
 
 /// <summary>
 /// This class is used in Travis's game, and it basically instantiates a specialEffect when called.

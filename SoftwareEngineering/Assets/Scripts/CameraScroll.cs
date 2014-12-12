@@ -1,4 +1,13 @@
-﻿using UnityEngine;
+﻿/* Program   : Medieval MOBA V0.0.1  
+ * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
+ * Date      : Wednesday, December 17 2014
+ * Files     : CameraScroll.cs
+ * Purpose   : Allows for camera zoom and movement around the map.
+ * Change Log: 12/1/14 - Implemented the ability to scroll around the map and zoom in and out of the map.
+ *             12/8/14 - Added a skeleton for the header.
+ */
+
+using UnityEngine;
 using System.Collections;
 
 public class CameraScroll : MonoBehaviour {
