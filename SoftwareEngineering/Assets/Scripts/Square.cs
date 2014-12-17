@@ -73,7 +73,7 @@ public class Square : MonoBehaviour
 
     public void highlightAttackSquare(bool value)
     {
-        Debug.Log("Highlight Attack in Square");
+       // Debug.Log("Highlight Attack in Square");
         attackHighlighted = value;
         attackHighlight.SetActive(value);
     }

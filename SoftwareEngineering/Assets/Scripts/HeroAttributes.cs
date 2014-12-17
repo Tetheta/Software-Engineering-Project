@@ -46,6 +46,8 @@ public class HeroAttributes : MonoBehaviour {
 	
 	public void heroMake(int whichClass, int whichTeam)
 	{
+        heroID = GameManager.heroNum;
+        GameManager.heroNum++;
 		heroClass = whichClass;
 		team = whichTeam;
 		switch(heroClass)
@@ -82,6 +84,14 @@ public class HeroAttributes : MonoBehaviour {
 			maxRange = 1;
 			moveCap = 0;
 			break;
+        case 5:   // Medic
+            baseMaxHealth = 20;
+			baseDamage = -12;
+			baseDefense = 6;
+			minRange = 1;
+			maxRange = 1;
+			moveCap = 4;
+            break;
         default:      //Think about adding tanks and healers
             baseMaxHealth = 1;
 			baseDamage = 1;
@@ -104,13 +114,25 @@ public class HeroAttributes : MonoBehaviour {
     {
         if (kill)
         {
-            if (levelDiff < 0)
-                exp = exp + (10 - levelDiff) * 5;
+            if (levelDiff < -7)
+            {
+                exp = exp + 10;
+            } 
+            else if(levelDiff < 0)
+            {
+                exp += (10 + levelDiff) * 5;
+            }
             else
                 exp = exp + 50 + levelDiff * 5;
         }
+        else if(levelDiff < -8)
+        {
+            exp++;
+        }
         else
+        {
             exp = exp + 10 + levelDiff;
+        }
         if (exp > 99)
         {
             exp = exp - 100;
@@ -134,11 +156,19 @@ public class HeroAttributes : MonoBehaviour {
                 baseDefense += 3;
                 curHealth += 2;
                 break;
-            case 3:     //mage?
+            case 3:     //Mage
                 baseMaxHealth += 2;
                 baseDamage += 5;
                 baseDefense += 2;
                 curHealth += 2;
+                break;
+            case 4:     //LOL BASES DON'T LEVEL
+                break;
+            case 5:     //Medic
+                baseMaxHealth += 3;
+                baseDamage -= 4;
+                baseDefense += 3;
+                curHealth += 3;
                 break;
             default:      //lulz unit
                 baseMaxHealth = 1;

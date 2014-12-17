@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     public GameObject terrainTile;              //A terrain tile we can assign from the editor
     public GameObject heroObject;				//A hero that can be assigned from the editor
     public Transform MainCanvas;				//Our main canvas, make UI objects a child of this to display them
+    public GameObject VictoryScreen;            //Our victory screen menu thing
 
     public static bool secondClick = false; 	//Have we clicked once already?
     public static int heroNum; 					//An incrementing int that gives different hero numbers to differentiate
@@ -87,6 +88,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {								// Use this for initialization. This is called after Awake()
+        VictoryScreen.SetActive(false);
         //Create our initial map Array
         for (int i = 0; i < mapX; i++)
         {
@@ -110,8 +112,8 @@ public class GameManager : MonoBehaviour
         //Create our unit selections, currently just hard coding this
         //unitSelection1 = new int[4] { PlayerPrefs.GetInt("Warriors"), PlayerPrefs.GetInt("Archers"), PlayerPrefs.GetInt("Mages"), 0 };
         //unitSelection2 = new int[4] { PlayerPrefs.GetInt("Warriors"), PlayerPrefs.GetInt("Archers"), PlayerPrefs.GetInt("Mages"), 0 };
-        unitSelection1 = new int[4] { 2, 3, 2, 1 };
-        unitSelection2 = new int[4] { 2, 2, 4, 1 };
+        unitSelection1 = new int[5] { 2, 3, 2, 1, 2};//Order here is Warrior, Archer, Mage, Base, Medic
+        unitSelection2 = new int[5] { 2, 2, 4, 1, 2};
         createMap();
     }
 
@@ -144,7 +146,7 @@ public class GameManager : MonoBehaviour
         int xPlace = 0;
         int xFurthest = 0;
         int yPlace = 0;
-        while ((unitSelection1[0] + unitSelection1[1] + unitSelection1[2] + unitSelection1[3]) != 0)
+        while ((unitSelection1[0] + unitSelection1[1] + unitSelection1[2] + unitSelection1[3] + unitSelection1[4]) != 0)
         {
             if (xPlace == 1 && yPlace == 1)
             {
@@ -152,6 +154,11 @@ public class GameManager : MonoBehaviour
                     unitSel = 4;
                     unitSelection1[3] -= 1;
                 }
+            }
+            else if (unitSelection1[4] > 0)
+            {
+                unitSel = 5;
+                unitSelection1[4] -= 1;
             }
             else if (unitSelection1[2] > 0)
             {
@@ -195,14 +202,19 @@ public class GameManager : MonoBehaviour
         xPlace = mapX - 1;
         yPlace = mapY - 1;
         xFurthest = mapX - 1;
-        while ((unitSelection2[0] + unitSelection2[1] + unitSelection2[2] + unitSelection2[3]) != 0)
+        while ((unitSelection2[0] + unitSelection2[1] + unitSelection2[2] + unitSelection2[3] + unitSelection2[4]) != 0)
         {
-            if (xPlace == (mapX - 2) && yPlace == (mapY-2))
+            if (xPlace == (mapX - 2) && yPlace == (mapY - 2))
             {
                 {
                     unitSel = 4;
                     unitSelection2[3] -= 1;
                 }
+            }
+            else if (unitSelection2[4] > 0)
+            {
+                unitSel = 5;
+                unitSelection2[4] -= 1;
             }
             else if (unitSelection2[2] > 0)
             {
@@ -241,7 +253,7 @@ public class GameManager : MonoBehaviour
                 xPlace++;
             }
         }
-
+        //Neutral mobs
         for (int i = mapX - 1; i >= 0; i--)
         {
             temp = (GameObject)Instantiate(heroObject,
@@ -249,7 +261,7 @@ public class GameManager : MonoBehaviour
                                                    Quaternion.identity);
             tempHeroScript = temp.GetComponent<Hero>();
             tempHeroScript.heroAttributes.curPosX = i;
-            tempHeroScript.heroAttributes.curPosY = mapY - i;
+            tempHeroScript.heroAttributes.curPosY = mapY - 1 - i;
             tempHeroScript.heroAttributes.heroMake(1, 3);
             temp.transform.parent = MainCanvas;
             mapArray[i, mapY - 1 - i].isHero = true;
@@ -370,13 +382,33 @@ public class GameManager : MonoBehaviour
      */
     public void initiateCombat(Hero heroAtk, Hero heroDef)
     {
-        if (heroAtk.heroAttributes.team != heroDef.heroAttributes.team)
+        Debug.Log("Hero " + heroAtk.heroAttributes.heroID + " Attacking Hero " + heroDef.heroAttributes.heroID);
+        if (heroAtk.heroAttributes.baseDamage < 0)  //Checks for if the attack is a medic
+        {
+            if ((heroAtk.heroAttributes.team == heroDef.heroAttributes.team) && (heroDef.heroAttributes.curHealth != heroDef.heroAttributes.baseMaxHealth))
+            {
+                heroAtk.Attack();
+                heroDef.heroAttributes.curHealth -= heroAtk.heroAttributes.baseDamage;  //Defense doesn't apply when getting healed
+                heroAtk.heroAttributes.getExp(-3, true);  //Applies a set xp amount per heal
+                if(heroDef.heroAttributes.curHealth > heroDef.heroAttributes.baseMaxHealth)
+                {
+                    heroDef.heroAttributes.curHealth = heroDef.heroAttributes.baseMaxHealth;  //Eliminates overhealing
+                }
+            }
+        }
+        else if (heroAtk.heroAttributes.team != heroDef.heroAttributes.team)
         {
             heroAtk.Attack();
             heroDef.heroAttributes.curHealth -= (heroAtk.heroAttributes.baseDamage - heroDef.heroAttributes.baseDefense);
             int levelDiff = heroDef.heroAttributes.level - heroAtk.heroAttributes.level;
             if (heroDef.heroAttributes.curHealth <= 0)
             {
+                if (heroDef.heroAttributes.baseDefense == 0)
+                {
+                    //We're the base, end the game!
+                    Debug.Log("Game Over");
+                    VictoryScreen.SetActive(true);
+                }
                 heroDef.Die();
                 heroAtk.heroAttributes.getExp(levelDiff, true);
             }
@@ -386,7 +418,15 @@ public class GameManager : MonoBehaviour
             }
             heroAtk.heroAttributes.hasAttacked = true;
         }
-        heroAtk.removeAttackRange();                   //Needs work
+        heroAtk.removeAttackRange();
+    }
+
+    /*
+     * This method ends the game and resets it (called from victory button)
+     */
+    public void resetGame()
+    {
+        Application.LoadLevel("Board");
     }
 
     /*
@@ -406,7 +446,20 @@ public class GameManager : MonoBehaviour
             {
                 currentHeroes[i].heroAttributes.hasAttacked = false;
                 currentHeroes[i].heroAttributes.hasMoved = false;
+                if(currentHeroes[i].heroAttributes.team == 3)
+                {
+                    currentHeroes[i].heroAttributes.getExp(-7, true);
+                }
+                else
+                {
+                    currentHeroes[i].heroAttributes.getExp(-4, true);
+                }
             }
+        }
+        //Reset our heroes clicked array
+        for (int i = 0; i < heroClicked.Count; i++)
+        {
+            heroClicked[i] = false;
         }
         if (curTeam == 1)
         {
