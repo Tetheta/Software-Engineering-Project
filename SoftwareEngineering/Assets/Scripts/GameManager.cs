@@ -15,7 +15,9 @@
  *             12/7/14  - Implemented an experience and leveling system for the units.
  *             12/8/14  - Added the ability to not attack teammates and added the ability to choose the type of units a team consists of.
  *             12/10/14 - Implemented unit spawning onto the map. Also began working on placing those units into specific tiles of the map. 
- *                        Came up with a diagonal based unit placement orientation.         
+ *                        Came up with a diagonal based unit placement orientation.  
+ *             12/16/14 - Added neautral enemies that people can kill for experience, global experience for all characters per turn, and added 
+ *                        a victory screen.
  */
 
 using UnityEngine;

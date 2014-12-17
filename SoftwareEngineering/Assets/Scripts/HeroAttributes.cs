@@ -9,7 +9,8 @@
  *             12/7/14  - Added functionality for leveling, gaining experience, and updating hitpoints based on leveling.
  *             12/8/14  - Changed the movement cap again. Also added the skeleton for the header.
  *             12/10/14 - Added functionality to determine if a specific unit has moved or not, and added a attack range minimum and maximum value. 
- *                        Added a case for the bases statistics.           
+ *                        Added a case for the bases statistics.   
+ *             12/16/14 - Added a 5th class, Medic, to the game, and added unit attributes for it! Added case to make sure that the base does not level up.
  */
 
 

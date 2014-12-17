@@ -9,6 +9,7 @@
  *             12/10/14 - Updated the recursive movement function and modified some of the if statements to work with it.  
  *                        Added non-working attack range code. Changed boundary condition on our max attack range loop.
  *             12/12/14 - Edited the hasClicked method to try and streamline and debug.
+ *             12/16/14 - Rolled back some implementation that was not working to a previous version that was working.
  *             
  */
 
