@@ -1,4 +1,4 @@
-﻿/* Program   : Medieval MOBA V0.0.1
+﻿/* Program   : NyanWars MOBA V0.0.1
  * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
  * Date      : Wednesday, December 17 2014
  * Files     : GameManager.cs
@@ -19,13 +19,10 @@
  *             12/16/14 - Added neautral enemies that people can kill for experience, global experience for all characters per turn, and added 
  *                        a victory screen.
  */
-
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-
-
 
 /*
  * This class is designed as a manager of all game functions and activities
@@ -35,7 +32,6 @@ using UnityEngine.UI;
  * The public functions it holds can be accessed through this singleton, while the
  * static variables can be accessed directly by calling GameManager.variable
  */
-
 public class GameManager : MonoBehaviour
 {
 
@@ -44,52 +40,52 @@ public class GameManager : MonoBehaviour
     {
         public Square square;
         public int tileType = 0;
-        public bool isHero = false;	//There is a hero on this tile
-        public int x;				//These are the values in tiles of this map section
+        public bool isHero = false;	                //There is a hero on this tile
+        public int x;				                //These are the values in tiles of this map section
         public int y;
     }
-    public static int mapX = 10;                //These variables are for the size of the map in tiles
+    public static int mapX = 10;                    //These variables are for the size of the map in tiles
     public static int mapY = 10;
-    public static int tileX = 70; 				//These variables are for the size of each square on the board
+    public static int tileX = 70; 				    //These variables are for the size of each square on the board
     public static int tileY = 70;
-    public static mapAttributes[,] mapArray;	//A 2D Array of the map
-    private GameObject[] tileTypes;             //An array of our possible tile types.
-    public GameObject terrainTile;              //A terrain tile we can assign from the editor
-    public GameObject heroObject;				//A hero that can be assigned from the editor
-    public Transform MainCanvas;				//Our main canvas, make UI objects a child of this to display them
-    public GameObject VictoryScreen;            //Our victory screen menu thing
-
-    public static bool secondClick = false; 	//Have we clicked once already?
-    public static int heroNum; 					//An incrementing int that gives different hero numbers to differentiate
-    public static List<bool> heroClicked; 		//A list of all heroes with a boolean for if they were clicked
-    public static List<Hero> currentHeroes;     //A list of all heroes' game objects
-    public static int curTeam;                  //Whose turn is it?
+    public static mapAttributes[,] mapArray;	    //A 2D Array of the map
+    private GameObject[] tileTypes;                 //An array of our possible tile types.
+    public GameObject terrainTile;                  //A terrain tile we can assign from the editor
+    public GameObject heroObject;				    //A hero that can be assigned from the editor
+    public Transform MainCanvas;				    //Our main canvas, make UI objects a child of this to display them
+    public GameObject VictoryScreen;                //Our victory screen menu thing
+    public static bool secondClick = false; 	    //Have we clicked once already?
+    public static int heroNum; 					    //An incrementing int that gives different hero numbers to differentiate
+    public static List<bool> heroClicked; 		    //A list of all heroes with a boolean for if they were clicked
+    public static List<Hero> currentHeroes;         //A list of all heroes' game objects
+    public static int curTeam;                      //Whose turn is it?
 
     //Variables for unit selection/etc
-    public static int[] unitSelection1;          //An array to hold the units selected by Team 1
-    public static int[] unitSelection2;          //An array to hold the units selected by Team 2
-    private int teamSel, unitSel;                //Ints to hold what we're selecting
+    public static int[] unitSelection1;             //An array to hold the units selected by Team 1
+    public static int[] unitSelection2;             //An array to hold the units selected by Team 2
+    private int teamSel, unitSel;                   //Ints to hold what we're selecting
 
 
-    public static GameManager Instance;			//Creating GameManager as a Singleton
+    public static GameManager Instance;			    //Creating GameManager as a Singleton
 
-    private GameObject temp;					//Temp game object for our map array initialization
+    private GameObject temp;					    //Temp game object for our map array initialization
     private Hero tempHeroScript;
 
-    void Awake()								//This method is called before Start, it's the very first thing after engine init
+    void Awake()								    //This method is called before Start, it's the very first thing after engine init
     {
-        Instance = this;						//Declare this instantiated GameObject to be the instance
-        DontDestroyOnLoad(this);				//Don't destroy this if we switch scenes. This is in reference to the Game Object holding this script
-        heroNum = 0;							//We'll start our heroes numbering at 0
-        curTeam = 1;                            //Teams are 1 and 2
-        heroClicked = new List<bool>();			//Create a list of clicked heroes (empty)
-        currentHeroes = new List<Hero>();	    //Create our list of currentHeroes (also empty)
+        Instance = this;						    //Declare this instantiated GameObject to be the instance
+        DontDestroyOnLoad(this);				    //Don't destroy this if we switch scenes. This is in reference to the Game Object holding this script
+        heroNum = 0;							    //We'll start our heroes numbering at 0
+        curTeam = 1;                                //Teams are 1 and 2
+        heroClicked = new List<bool>();			    //Create a list of clicked heroes (empty)
+        currentHeroes = new List<Hero>();	        //Create our list of currentHeroes (also empty)
         mapArray = new mapAttributes[mapX, mapY];	//Create an array of the game board
-        tileTypes = new GameObject[10];			//Initialize our array of tile types
+        tileTypes = new GameObject[10];			    //Initialize our array of tile types
     }
 
+    //Begins a game with specified unit types and places them on the map.
     void Start()
-    {								// Use this for initialization. This is called after Awake()
+    {								                // Use this for initialization. This is called after Awake()
         VictoryScreen.SetActive(false);
         //Create our initial map Array
         for (int i = 0; i < mapX; i++)
@@ -97,33 +93,27 @@ public class GameManager : MonoBehaviour
             for (int j = 0; j < mapY; j++)
             {
                 mapArray[i, j] = new mapAttributes();
-                mapArray[i, j].tileType = 0; //Set everything to our default terrain type;
-                //if (j % 5 == 1) {
-                //    mapArray[i,j].isHero = true;
-                //    Debug.Log("mapArray isHero at " + i + " " + j);
-                //}
+                mapArray[i, j].tileType = 0;        //Set everything to our default terrain type;
             }
         }
 
         //Create our tile types
         for (int i = 0; i < 10; i++)
         {
-            //tileTypes[i] = new GameObject();
             tileTypes[i] = terrainTile;
         }
-        //Create our unit selections, currently just hard coding this
-        //unitSelection1 = new int[4] { PlayerPrefs.GetInt("Warriors"), PlayerPrefs.GetInt("Archers"), PlayerPrefs.GetInt("Mages"), 0 };
-        //unitSelection2 = new int[4] { PlayerPrefs.GetInt("Warriors"), PlayerPrefs.GetInt("Archers"), PlayerPrefs.GetInt("Mages"), 0 };
         unitSelection1 = new int[5] { 2, 3, 2, 1, 2};//Order here is Warrior, Archer, Mage, Base, Medic
         unitSelection2 = new int[5] { 2, 2, 4, 1, 2};
         createMap();
     }
 
+    //Pulls up the board!
     public Transform getMainCanvas()
     {
         return MainCanvas;
     }
 
+    //Generates the map, and places 
     private void createMap()
     {
         //Instantiate our tiles
@@ -142,8 +132,7 @@ public class GameManager : MonoBehaviour
                 mapArray[i, j].square.y = j;
             }
         }
-//////////////////////////////////Work in progress
-        //Start team 1 placement
+        //Start team 1 placement-------------------------------------
         teamSel = 1;
         int xPlace = 0;
         int xFurthest = 0;
@@ -199,7 +188,7 @@ public class GameManager : MonoBehaviour
                 xPlace--;
             }
         }
-        //Start team 2 placement
+        //Start team 2 placement----------------------------------------
         teamSel = 2;
         xPlace = mapX - 1;
         yPlace = mapY - 1;
@@ -255,7 +244,7 @@ public class GameManager : MonoBehaviour
                 xPlace++;
             }
         }
-        //Neutral mobs
+        //Neutral mob placement----------------------------------------------
         for (int i = mapX - 1; i >= 0; i--)
         {
             temp = (GameObject)Instantiate(heroObject,
@@ -268,106 +257,14 @@ public class GameManager : MonoBehaviour
             temp.transform.parent = MainCanvas;
             mapArray[i, mapY - 1 - i].isHero = true;
         }
-/////////////////////////////////End Work in progress
-/*
-        //Instantiate our map
-        for (int i = 0; i < mapX; i++)
-        {
-            for (int j = 0; j < mapY; j++)
-            {
-                if (((i+j) < 3) || (((mapX - i) + (mapY - j)) < 5))
-                {
-                    teamSel = -1;
-                    unitSel = -1;
-                    if (unitSelection1[0] > 0)
-                    {
-                        teamSel = 1;
-                        unitSel = 1;
-                        unitSelection1[0] -= 1;
-                    }
-                    else if (unitSelection1[1] > 0)
-                    {
-                        teamSel = 1;
-                        unitSel = 2;
-                        unitSelection1[1] -= 1;
-                    }
-                    else if (unitSelection1[2] > 0)
-                    {
-                        teamSel = 1;
-                        unitSel = 3;
-                        unitSelection1[2] -= 1;
-                    }
-                    else if (unitSelection1[3] > 0)
-                    {
-                        teamSel = 1;
-                        unitSel = 4;
-                        unitSelection1[3] -= 1;
-                    }
-                    else if (unitSelection2[0] > 0)
-                    {
-                        teamSel = 2;
-                        unitSel = 1;
-                        unitSelection2[0] -= 1;
-                    }
-                    else if (unitSelection2[1] > 0)
-                    {
-                        teamSel = 2;
-                        unitSel = 2;
-                        unitSelection2[1] -= 1;
-                    }
-                    else if (unitSelection2[2] > 0)
-                    {
-                        teamSel = 2;
-                        unitSel = 3;
-                        unitSelection2[2] -= 1;
-                    }
-                    else if (unitSelection2[3] > 0)
-                    {
-                        teamSel = 2;
-                        unitSel = 4;
-                        unitSelection2[3] -= 1;
-                    }
-                    if (teamSel != -1 || unitSel != -1) //We make a hero!
-                    {
-                        temp = (GameObject)Instantiate(heroObject,
-                                                   new Vector2(((i - mapX / 2) * tileX), ((j - mapY / 2) * tileY)),
-                                                   Quaternion.identity);
-                        tempHeroScript = temp.GetComponent<Hero>();
-                        tempHeroScript.heroAttributes.curPosX = i;
-                        tempHeroScript.heroAttributes.curPosY = j;
-                        tempHeroScript.heroAttributes.heroMake(unitSel, teamSel); //Make archers on team 2 //WORKING HERE!!! TODO
-                        temp.transform.parent = MainCanvas;
-                        mapArray[i, j].isHero = true;
-                    }
-                }
-
-            }
-        }
-        for (int i = mapX - 1; i >= 0; i--)
-        {
-            temp = (GameObject)Instantiate(heroObject,
-                                                   new Vector2(((i - mapX / 2) * tileX), (((mapY - 1 - i) - mapY / 2) * tileY)),
-                                                   Quaternion.identity);
-            tempHeroScript = temp.GetComponent<Hero>();
-            tempHeroScript.heroAttributes.curPosX = i;
-            tempHeroScript.heroAttributes.curPosY = mapY - i;
-            tempHeroScript.heroAttributes.heroMake(1, 3);
-            temp.transform.parent = MainCanvas;
-            mapArray[i, mapY - i].isHero = true;
-        }
-        */
-
     }
 
     void Update()
-    {		// Update is called once per frame. There is also FixedUpdate (updates w/physics) and LateUpdate
+    {		
 
     }
 
-    /*
-     * This function accepts a transform position, and then moves the hero with number hNum to that position
-     */
-
+    //This function accepts a transform position, and then moves the hero with number hNum to that position
     public void moveHero(Transform newPos, int hNum, int x, int y)
     {
         Debug.Log("Moving Hero " + hNum);
@@ -385,16 +282,16 @@ public class GameManager : MonoBehaviour
     public void initiateCombat(Hero heroAtk, Hero heroDef)
     {
         Debug.Log("Hero " + heroAtk.heroAttributes.heroID + " Attacking Hero " + heroDef.heroAttributes.heroID);
-        if (heroAtk.heroAttributes.baseDamage < 0)  //Checks for if the attack is a medic
+        if (heroAtk.heroAttributes.baseDamage < 0)                                                      //Checks for if the attack is a medic
         {
             if ((heroAtk.heroAttributes.team == heroDef.heroAttributes.team) && (heroDef.heroAttributes.curHealth != heroDef.heroAttributes.baseMaxHealth))
             {
                 heroAtk.Attack();
-                heroDef.heroAttributes.curHealth -= heroAtk.heroAttributes.baseDamage;  //Defense doesn't apply when getting healed
-                heroAtk.heroAttributes.getExp(-3, true);  //Applies a set xp amount per heal
+                heroDef.heroAttributes.curHealth -= heroAtk.heroAttributes.baseDamage;                  //Defense doesn't apply when getting healed
+                heroAtk.heroAttributes.getExp(-3, true);                                                //Applies a set xp amount per heal
                 if(heroDef.heroAttributes.curHealth > heroDef.heroAttributes.baseMaxHealth)
                 {
-                    heroDef.heroAttributes.curHealth = heroDef.heroAttributes.baseMaxHealth;  //Eliminates overhealing
+                    heroDef.heroAttributes.curHealth = heroDef.heroAttributes.baseMaxHealth;            //Eliminates overhealing
                 }
             }
         }
@@ -423,17 +320,13 @@ public class GameManager : MonoBehaviour
         heroAtk.removeAttackRange();
     }
 
-    /*
-     * This method ends the game and resets it (called from victory button)
-     */
+    //This method ends the game and resets it (called from victory button)
     public void resetGame()
     {
         Application.LoadLevel("Board");
     }
 
-    /*
-     * This method ends a turn, disabling all herores of the team specified and enabling those of the opposing team
-     */
+    //This method ends a turn, disabling all herores of the team specified and enabling those of the opposing team 
     public void endTurn()
     {
         secondClick = false; //We're resetting so we're on our first click again

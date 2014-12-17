@@ -1,4 +1,4 @@
-﻿/* Program   : Medieval MOBA V0.0.1
+﻿/* Program   : NyanWars MOBA V0.0.1
  * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
  * Date      : Wednesday, December 17 2014
  * Files     : GameSetup.cs
@@ -6,8 +6,7 @@
  * Change Log: 12/10/14 - Added this to manage the number of units that each person chooses to generate on the board, not completed yet.
  *             
  */
-
-
+//THIS IS NOT CURRENTLY BEING IMPLEMENTED IN OUR CURRENT STATE
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;

@@ -1,4 +1,4 @@
-﻿/* Program   : Medieval MOBA V0.0.1
+﻿/* Program   : NyanWars MOBA V0.0.1
  * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
  * Date      : Wednesday, December 17 2014
  * Files     : Square.cs
@@ -8,26 +8,22 @@
  *             12/8/14  - Updated the highlighting by making the function return a bool value.
  *             12/10/14 - Added the attack range tile highlighting ability.            
  */
-
-
 using UnityEngine;
 using System.Collections;
-//using UnityEngine.UI;
 
-/// <summary>
-/// Square is a script that is assigned to every square on our game board. 
-/// It has a function for if it is clicked that will move the hero to its location
-/// </summary>
+// Square is a script that is assigned to every square on our game board. 
+// It has a function for if it is clicked that will move the hero to its location
 
 public class Square : MonoBehaviour
 {
-    public int x, y; //Or location for this square
+    public int x, y;                                 //Or location for this square
     private GameObject highlight;
     private GameObject attackHighlight;
     private int highlighted = 0;
     private bool attackHighlighted = false;
     private bool canMoveTo = false;
     private bool canAttack = false;
+
     // Use this for initialization
     void Start()
     {
@@ -35,17 +31,16 @@ public class Square : MonoBehaviour
         {
             if (t.name == "Highlight")
             {
-                highlight = t.gameObject; //Grab the child highlight object
+                highlight = t.gameObject;            //Grab the child highlight object
                 highlight.SetActive(false);
             }
             else if (t.name == "attackHighlight")
             {
-                attackHighlight = t.gameObject; //Grab the child attackHighlight object
+                attackHighlight = t.gameObject;      //Grab the child attackHighlight object
                 attackHighlight.SetActive(false);
             }
         }
     }
-
 
     // Update is called once per frame
     void Update()
@@ -53,9 +48,7 @@ public class Square : MonoBehaviour
 
     }
 
-    /*
-     * This function highlights a square to denote it can be clicked on and moved to
-     */
+    //This functions determines which tiles are currently highlighted.
     public void highlightSquare(bool value)
     {
         if (value)
@@ -66,25 +59,28 @@ public class Square : MonoBehaviour
         canMoveTo = value;
     }
 
+    
+    //This function highlights a square to denote it can be clicked on and moved to.
     public int isHighlighted()
     {
         return highlighted;
     }
 
+    //This functions highlights the squares a different color based on what the attack range is.
     public void highlightAttackSquare(bool value)
     {
        // Debug.Log("Highlight Attack in Square");
         attackHighlighted = value;
         attackHighlight.SetActive(value);
     }
+
+    //This function determines if a tile is highlighted as an attack tile.
     public bool isAttackHighlighted()
     {
         return attackHighlighted;
     }
 
-    /*
-     * This is called by UI Button, and it basically just checks if we need to move a hero here
-     */
+    //This is called by UI Button, and it basically just checks if we need to move a hero here
     public void wasClicked()
     {
         if (GameManager.secondClick)
@@ -96,14 +92,14 @@ public class Square : MonoBehaviour
                     if (canMoveTo)
                     {
                         GameManager.Instance.moveHero(transform, i, x, y);	//Move that hero here
-                        GameManager.heroClicked[i] = false;			//That hero isn't clicked anymore.
+                        GameManager.heroClicked[i] = false;			        //That hero isn't clicked anymore.
                         Debug.Log("Hero #" + i + " Clicked, now going to move hero!");
                         for (int j = 0; j < GameManager.mapX; j++)
                         {
                             for (int k = 0; k < GameManager.mapY; k++)
                             {
                                 GameManager.mapArray[j, k].square.highlightSquare(false);
-                                GameManager.secondClick = false;	//Back to the first click, reset!
+                                GameManager.secondClick = false;	        //Back to the first click, reset!
                             }
                         }
                     }

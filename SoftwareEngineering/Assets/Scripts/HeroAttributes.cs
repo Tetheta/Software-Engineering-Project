@@ -1,4 +1,4 @@
-﻿/* Program   : Medieval MOBA V0.0.1
+﻿/* Program   : NyanWars MOBA V0.0.1
  * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
  * Date      : Wednesday, December 17 2014
  * Files     : HeroAttributes.cs
@@ -12,39 +12,40 @@
  *                        Added a case for the bases statistics.   
  *             12/16/14 - Added a 5th class, Medic, to the game, and added unit attributes for it! Added case to make sure that the base does not level up.
  */
-
-
 using UnityEngine;
 using System.Collections;
 
 public class HeroAttributes : MonoBehaviour {
 	
-	public int baseMaxHealth;   //Maximum health
-	public int baseDamage;      //How hard the hero hits
-	public int baseDefense;    //How much the hero resists taking damage
-	public int heroClass; //use int identifiers for the different classes and use the classes to dictate other stats
-	public int minRange; //can attack adjacent
-	public int maxRange; //can attack from AFLAC
-	public int level, exp; //level and exp
-	public int moveCap;  //max spaces to walk per turn
-	public int team;   // team identifier
-	public int heroID;  //which hero it is
-    public bool hasAttacked; //Is it this unit's turn atm?
-    public bool hasMoved; //Has this unit moved yet?
-
-	public int curHealth; //Current health of the player
-	public int curPosX; 
-	public int curPosY;
+	public int  baseMaxHealth;      //Maximum health.
+	public int  baseDamage;         //How hard the hero hits.
+	public int  baseDefense;        //How much the hero resists taking damage.
+	public int  heroClass;          //Use int identifiers for the different classes and use the classes to dictate other hero stats.
+	public int  minRange;           //For the minimum attack range.
+	public int  maxRange;           //For the maximum attack range.
+	public int  level, exp;         //Level and Experience.
+	public int  moveCap;            //Max number of spaces to walk per turn.
+	public int  team;               //Team identifier.
+	public int  heroID;             //Which hero it is.
+    public bool hasAttacked;        //Is it this unit's turn at the moment?
+    public bool hasMoved;           //Has this unit moved yet?
+	public int curHealth;           //Current health of the player.
+	public int curPosX;             //Current position W.R.T. the x-axis
+	public int curPosY;             //Current position W.R.T. the y-axis.
 	
 	// Use this for initialization
-	void Start () {
+	void Start () 
+    {
+
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		
 	}
 	
+    //This function creates a hero and allocates it to a team based on a class ID and team ID.
 	public void heroMake(int whichClass, int whichTeam)
 	{
         heroID = GameManager.heroNum;
@@ -69,7 +70,7 @@ public class HeroAttributes : MonoBehaviour {
 			maxRange = 2;
 			moveCap = 3;
 			break;
-		case 3:     //mage
+		case 3:     //Mage
 			baseMaxHealth = 15;
 			baseDamage = 15;
 			baseDefense = 4;
@@ -77,7 +78,7 @@ public class HeroAttributes : MonoBehaviour {
 			maxRange = 2;
 			moveCap = 3;
 			break;
-        case 4:      //LOL I R BASE GUYZ
+        case 4:      //Base
 			baseMaxHealth = 200;
 			baseDamage = 0;
 			baseDefense = 0;
@@ -85,7 +86,7 @@ public class HeroAttributes : MonoBehaviour {
 			maxRange = 1;
 			moveCap = 0;
 			break;
-        case 5:   // Medic
+        case 5:      //Healer/Medic
             baseMaxHealth = 20;
 			baseDamage = -12;
 			baseDefense = 6;
@@ -111,6 +112,7 @@ public class HeroAttributes : MonoBehaviour {
         }
 	}
 
+    //This function enables the heroes on the board to gain experience per kill, and per set amount of time
     public void getExp(int levelDiff, bool kill)
     {
         if (kill)
@@ -141,6 +143,7 @@ public class HeroAttributes : MonoBehaviour {
         }
     }
 
+    //This function allows determines the statistic upgrades that happen to each class as they level up.
     public void levelUp()
     {
         switch (heroClass)
@@ -163,7 +166,7 @@ public class HeroAttributes : MonoBehaviour {
                 baseDefense += 2;
                 curHealth += 2;
                 break;
-            case 4:     //LOL BASES DON'T LEVEL
+            case 4:     //Base (Fortress) case, should not be allowed to level.
                 break;
             case 5:     //Medic
                 baseMaxHealth += 3;
@@ -171,7 +174,7 @@ public class HeroAttributes : MonoBehaviour {
                 baseDefense += 3;
                 curHealth += 3;
                 break;
-            default:      //lulz unit
+            default:      //Non-implemented unit
                 baseMaxHealth = 1;
                 baseDamage = 0;
                 baseDefense = 0;

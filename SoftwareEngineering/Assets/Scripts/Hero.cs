@@ -1,4 +1,4 @@
-﻿/* Program   : Medieval MOBA V0.0.1
+﻿/* Program   : NyanWars MOBA V0.0.1
  * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
  * Date      : Wednesday, December 17 2014
  * Files     : Hero.cs
@@ -12,46 +12,38 @@
  *             12/16/14 - Rolled back some implementation that was not working to a previous version that was working.
  *             
  */
-
-
 using UnityEngine;
 using System.Collections;
 
-/*
- * This class is a generic hero class that creates a hero in our gameManager and can react to it being clicked
- */
-
+//This class is a generic hero class that creates a hero in our gameManager and can react to it being clicked
 public class Hero : MonoBehaviour
 {
-    public HeroAttributes heroAttributes;		//Attributes of this hero
+    public HeroAttributes heroAttributes;		                    //Attributes of this hero
     private Animator heroAnimator;
     private GameObject temp;
     public GameObject highlight;
 
-
-    void Awake() //Called before Start
+    //Called before Start
+    void Awake() 
     {
-        heroAttributes = GetComponent<HeroAttributes>(); //Grab this instance's hero attributes script to mess with
+        heroAttributes = GetComponent<HeroAttributes>();            //Grab this instance's hero attributes script to mess with
     }
 
     // Use this for initialization
     void Start()
     {
-        addHero();							//Add our hero to the game
-        //heroAttributes.heroMake (1,1);      //Make a hero of default class (warrior I think) || DOING THIS NOW IN GAMEMANAGER
+        addHero();							                        //Add our hero to the game
         Debug.Log("HeroPosX: " + heroAttributes.curPosX + "HeroPosY: " + heroAttributes.curPosY);
-        heroAnimator = GetComponent<Animator>();    //Grab the animator attached to this gameObject
+        heroAnimator = GetComponent<Animator>();                    //Grab the animator attached to this gameObject
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log ("HeroPosX: " + heroAttributes.curPosX + "HeroPosY: " + heroAttributes.curPosY);	
+       
     }
 
-    /*
-     * This method adds a hero to our list of heroes and also adds a reference to it in heroClicked
-     */
+    //This method adds a hero to our list of heroes and also adds a reference to it in heroClicked
     private void addHero()
     {
         GameManager.currentHeroes.Add(this);
@@ -68,7 +60,7 @@ public class Hero : MonoBehaviour
     {
         if (heroAttributes.hasMoved == false)
         {
-            GameManager.mapArray[x, y].square.highlightSquare(true); // added so that you can click on the hero again to hopefully move back to that spot
+            GameManager.mapArray[x, y].square.highlightSquare(true); //Added so that you can click on the hero again to move back to that spot
             if (moveCap > 0)
             {
                 if (x > 0 && GameManager.mapArray[x - 1, y].square.isHighlighted() < 2)
@@ -88,19 +80,18 @@ public class Hero : MonoBehaviour
                     StartCoroutine(MoveRecursive(x, y + 1, moveCap - 1));
                 }
             }
-            //            heroAttributes.hasMoved = true; //should be set after physical movement
         }
-
     }
+
+    //This function recursively controls the generation of our step counter
     IEnumerator MoveRecursive(int x, int y, int moveCap)
     {
-        yield return new WaitForSeconds(0.001f); //Wait before continuing
+        yield return new WaitForSeconds(0.001f);                     //Wait before continuing
         //Mark the square we're selecting
         if (GameManager.mapArray[x, y] != null)
         {
-            if (!GameManager.mapArray[x, y].isHero) //TROUBLE BREWS, FEAR YE WHO ENTER
+            if (!GameManager.mapArray[x, y].isHero) 
             {
-               // Debug.Log("Highlight square " + GameManager.mapArray[x, y].square.x + ", " + GameManager.mapArray[x, y].square.y);
                 GameManager.mapArray[x, y].square.highlightSquare(true);
                 //Move
                 if (moveCap > 0)
@@ -126,12 +117,14 @@ public class Hero : MonoBehaviour
         }
     }
 
+    //Starts the animation for the sprite attack 
     public void Attack()
     {
         heroAnimator.SetTrigger("Attack");
     }
 
-    public void attackRange() //Not sure if we need to pass these variables? Or possibly the max and min attack ranges as well?
+    //Pulls up the attack ranges of the specific units, based on their class identifiers.
+    public void attackRange() 
     {
         int HEROLOCATIONX = heroAttributes.curPosX;
         int HEROLOCATIONY = heroAttributes.curPosY;
@@ -149,12 +142,10 @@ public class Hero : MonoBehaviour
                 sum = i + j;
                 if (sum <= heroAttributes.maxRange && sum >= heroAttributes.minRange)
                 {
-                   // Debug.Log("Entered attackRange Function max/min range if statement");
                     if ((HEROLOCATIONX + i < GameManager.mapX) &&
                         (HEROLOCATIONY + j < GameManager.mapY) &&
                         !GameManager.mapArray[HEROLOCATIONX + i, HEROLOCATIONY + j].square.isAttackHighlighted())//Check first Quadrant
                     {
-                      //  Debug.Log("Highlighting Attack Square");
                         GameManager.mapArray[HEROLOCATIONX + i, HEROLOCATIONY + j].square.highlightAttackSquare(true);
                     }
                     if ((HEROLOCATIONX - j >= 0) &&
@@ -180,24 +171,9 @@ public class Hero : MonoBehaviour
         }
     }
 
+    //Removes the highlighted tiles from the map once the units turn is complete
     public void removeAttackRange()
     {
-        //Somewhere we need to erase all the highlights, below is the code, but I'm not sure if we want it in it's own function or not?
-        //int HEROLOCATIONX = heroAttributes.curPosX;
-        //int HEROLOCATIONY = heroAttributes.curPosY;
-        //int sum = 0;
-        //for (int i = 1; i <= heroAttributes.maxRange; i++)
-        //{
-        //    sum = 0;
-        //    for (int j = 0; sum < heroAttributes.maxRange; j++)
-        //    {
-        //        sum = i + j;
-        //        GameManager.mapArray[HEROLOCATIONX + i, HEROLOCATIONY + j].square.highlightAttackSquare(false);
-        //        GameManager.mapArray[HEROLOCATIONX - j, HEROLOCATIONY + i].square.highlightAttackSquare(false);
-        //        GameManager.mapArray[HEROLOCATIONX - i, HEROLOCATIONY - j].square.highlightAttackSquare(false);
-        //        GameManager.mapArray[HEROLOCATIONX + j, HEROLOCATIONY - i].square.highlightAttackSquare(false);
-        //    }
-        //}
         for (int i = 0; i < GameManager.mapX; i++)
         {
             for (int j = 0; j < GameManager.mapY; j++)
@@ -210,6 +186,7 @@ public class Hero : MonoBehaviour
         }
     }
 
+    //Starts the animation for the unit dying
     public void Die()
     {
         GameManager.mapArray[heroAttributes.curPosX, heroAttributes.curPosY].isHero = false;
@@ -217,6 +194,7 @@ public class Hero : MonoBehaviour
         StartCoroutine(waitforDeathAnimation());
     }
 
+    //Makes the program wait for the death animation to finish before another move to be made.
     IEnumerator waitforDeathAnimation()
     {
         yield return new WaitForSeconds(0.8f);
@@ -228,9 +206,7 @@ public class Hero : MonoBehaviour
      * If it's the second click, the hero moves to the desired location and potentially destroys an opponent
      * If it's the first click, the hero is simply selected and put into the heroClicked list.
      */
-
-    public void wasClicked()/*Dane edit:  I really really think we should get rid of secondClick and just have 1 click, then when you move, automatically pop up attack range.  Click on yourself after first click should bring up attack range then without moving, and clicking on yourself after moving should invoke no attack and make the hero inactive.  Also, we really really need clicking outside of the grid to cancel movement without making inactive, and do nothing while attacking.  I think this would fix lots of things. */
-        /*Travis: Sorry, but if you didn't implement a fix for secondClick, we're going to have to use it */
+    public void wasClicked()
     {
         Debug.Log("Hero " + heroAttributes.heroID + " was Clicked");
         if (GameManager.secondClick)
@@ -239,14 +215,14 @@ public class Hero : MonoBehaviour
             if (GameManager.mapArray[heroAttributes.curPosX, heroAttributes.curPosY].square.isAttackHighlighted())
             {
                 Debug.Log("Square is highlighted");
-                for (int i = 0; i < GameManager.heroClicked.Count; i++)	//Loop through all of our heroes, to see if they clicked
+                for (int i = 0; i < GameManager.heroClicked.Count; i++)	                         //Loop through all of our heroes, to see if they clicked
                 {
-                    if (GameManager.heroClicked[i] && i != heroAttributes.heroID)		//If a hero was clicked and it's not us... COMBAT!
+                    if (GameManager.heroClicked[i] && i != heroAttributes.heroID)		         //If a hero was clicked and it's not us... COMBAT!
                     {
-                        //COMBAT HAPPENS HERE BECAUSE HYESS
-                        GameManager.heroClicked[i] = false;				//Let the GameManger know that hero is no longer clicked
+                        //Combat happens here
+                        GameManager.heroClicked[i] = false;				                         //Let the GameManger know that hero is no longer clicked
                         Debug.Log("Hero #" + i + " Clicked, now going to hurt hero " + heroAttributes.heroID + "!");
-                        //Need to check to see if we're in range here
+                                                                                                 //Need to check to see if we're in range here
                         GameManager.Instance.initiateCombat(GameManager.currentHeroes[i], this); //Initiate combat between the attacker (currenthero[i] and this)
                         GameManager.currentHeroes[i].removeAttackRange();
                         for (int j = 0; j < GameManager.mapX; j++)
@@ -256,21 +232,21 @@ public class Hero : MonoBehaviour
                                 GameManager.mapArray[j, k].square.highlightSquare(false);
                             }
                         }
-                        GameManager.secondClick = false;				//We're no longer on the second click, reset it
+                        GameManager.secondClick = false;				                         //We're no longer on the second click, reset it
                     }
                 }
             }
             else
             {
                 removeAttackRange();
-                GameManager.secondClick = false;				//We're no longer on the second click, reset it
-                for (int i = 0; i < GameManager.heroClicked.Count; i++)	//Loop through all of our heroes, to reset things
+                GameManager.secondClick = false;				                                 //We're no longer on the second click, reset it
+                for (int i = 0; i < GameManager.heroClicked.Count; i++)	                         //Loop through all of our heroes, to reset things
                 {
                     GameManager.heroClicked[i] = false;
                 }
             }
         }
-        else if (!heroAttributes.hasAttacked) //Make sure we can be clicked, aka we haven't attacked yet
+        else if (!heroAttributes.hasAttacked)                                                    //Make sure we can be clicked, aka we haven't attacked yet
         {												//First click!
 
             if (heroAttributes.team > 2)
@@ -279,32 +255,31 @@ public class Hero : MonoBehaviour
             }
             else if (heroAttributes.baseDamage == 0)
             {
-                //We're the base! We are so based guyz we don't do anything
+                //I'm the base! 
             }
             else
             {
-                GameManager.secondClick = true; //The next click will be the second one
+                GameManager.secondClick = true;                                                   //The next click will be the second one
                 Debug.Log("Hero " + heroAttributes.heroID + " was clicked!");
-                GameManager.heroClicked[heroAttributes.heroID] = true; //We are clicked! Add us to the clicked list
-                //Debug.Log("Hero " + heroInt + " was clicked!2");
+                GameManager.heroClicked[heroAttributes.heroID] = true;                            //We are clicked! Add us to the clicked list
 
                 if (heroAttributes.hasMoved)
                 {
-                    attackRange(); //Set up our possible attack range
+                    attackRange();                                                                //Set up our possible attack range
                 }
                 else
                 {
                     Move(heroAttributes.curPosX, heroAttributes.curPosY, heroAttributes.moveCap); //Start trying to move this hero
-                    heroAttributes.hasMoved = true; //should be set after physical movement
+                    heroAttributes.hasMoved = true;                                               //Should be set after physical movement
                 }
             }
 
         }
     }
 
+    //Removes a dead hero from the map, after the dying animation has completed
     public void destroyHero()
     {
-        //SpecialEffectsHelper.Instance.Explosion(transform.position);	//Instantiate an explosion :o
         Destroy(gameObject);
     }
 }

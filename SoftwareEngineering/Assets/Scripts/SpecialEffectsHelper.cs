@@ -1,4 +1,4 @@
-﻿/* Program   : Medieval MOBA V0.0.1
+﻿/* Program   : NyanWars MOBA V0.0.1
  * Author    : Travis Crumley, Dane Purkeypile, Ivan Alvarado, Misha Brajnikoff, Luke Travis, Stephen Treat, Alex Ziesmer
  * Date      : Wednesday, December 17 2014
  * Files     : SpecialEffectsHelper.cs
@@ -6,20 +6,14 @@
  * Change Log: 11/3/14 - Added this to enabled us to use super awesome special effects when units die.
  *             12/8/14 - Added the skeleton for the header.          
  */
-
-
 using UnityEngine;
 
-/// <summary>
-/// This class is used in Travis's game, and it basically instantiates a specialEffect when called.
-/// It is a singleton, so it is not destroyed upon loading different scenes and its methods can be
-/// called by calling SpecialEffectsHelper.Instance.method()
-/// </summary>
-
+// This class is used in Travis's game, and it basically instantiates a specialEffect when called.
+// It is a singleton, so it is not destroyed upon loading different scenes and its methods can be
+// called by calling SpecialEffectsHelper.Instance.method()
 
 public class SpecialEffectsHelper : MonoBehaviour
 {
-	
 	//Singleton
 	private static SpecialEffectsHelper _instance;
 
@@ -73,7 +67,6 @@ public class SpecialEffectsHelper : MonoBehaviour
 	}
 	
 	//Create an explosion at the given location
-	
 	public void Explosion(Vector3 position)
 	{
 		instantiate(smallExplosion, position);
@@ -96,8 +89,7 @@ public class SpecialEffectsHelper : MonoBehaviour
 	//overload
 	public void eggExplosion(Vector3 position)
 	{
-		instantiate(smallBang, position);
-		
+		instantiate(smallBang, position);	
 	}
 
 	//Same as above
@@ -110,8 +102,7 @@ public class SpecialEffectsHelper : MonoBehaviour
 	//overload
 	public void bigExplosion(Vector3 position)
 	{
-		instantiate(bigBang, position);
-		
+		instantiate(bigBang, position);	
 	}
 	
 	//Instantiate a Particle system from prefab
